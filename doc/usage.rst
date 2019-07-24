@@ -8,8 +8,7 @@ Using **VELOCIraptor**
 Running the code
 ================
 
-**Velociraptor** is a stand alone executable (with the executable named stf (or STructure Finder for historical reasons)).
-It can be run in serial, with OpenMP, or MPI APIs. A typical command to start the code looks like:
+**Velociraptor** can be compiled as a stand alone executable (with the executable named stf (or STructure Finder for historical reasons)) or as a library to be called from within a N-Body/Hydrodnamical code for one-the-fly halo finding. Currently the code can be called from within `SWIFTSIM <https://https://github.com/SWIFTSIM/swiftsim/>`_. It can be run in serial, with OpenMP, or MPI APIs. A typical command to start the code looks like:
 ::
 
  ./stf < args >
@@ -35,9 +34,6 @@ additional files containing configuration information.
 When running in MPI, currently each mpi thread writes its own output.
 
 .. note:: At the moment, mpirun assumes that a single structure can fit onto the memory local to the mpi thread. If larger field objects (haloes) are to be analyzed such that they are unlikely to fit into local memory, it is suggested another machine be used. Revision is in the works to use the Singlehalo_search option after field halos have been identified.
-
-.. note:: Certain compilation options rename the executable to reflect compile time options (see :ref:`compileoptions` for a list). Examples are using gas or star particles, which appends `-gas`, `-star`, to the executable name.
-
 
 .. _cmdargs:
 

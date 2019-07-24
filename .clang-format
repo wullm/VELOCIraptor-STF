@@ -1,0 +1,30 @@
+﻿---
+# Use the defaults defined by the LLVM standard (http://llvm.org/docs/CodingStandards.html)
+BasedOnStyle: LLVM
+UseTab: Never
+IndentWidth: 4
+TabWidth:        4
+ContinuationIndentWidth: 4
+
+# Apply these modifications to the defaults
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortFunctionsOnASingleLine: None
+BinPackArguments: false
+BinPackParameters: false
+ColumnLimit:     120
+ForEachMacros:
+IndentCaseLabels: true
+#IndentPPDirectives: AfterHash # Not available in clang 5
+IndentWrappedFunctionNames: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+NamespaceIndentation: All
+SortIncludes:    false
+SpaceBeforeParens: Never
+SpacesInContainerLiterals: false
+
+# Options not function with clang-format 3.8.0-ubuntu4 (tags/RELEASE_380/final)
+#BreakConstructorInitializers: AfterColon
+#AlignEscapedNewlines: Left
+...
