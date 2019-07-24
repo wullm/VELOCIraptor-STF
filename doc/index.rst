@@ -25,6 +25,7 @@ and analysis python scripts (and sample jupyter notebooks).
    getting.rst
    usage.rst
    output.rst
+   developer.rst
 
 
 
@@ -33,6 +34,7 @@ Sections
 * :ref:`getting` : How to compile the code
 * :ref:`usage` : How to run the code
 * :ref:`output` : How to use output data
+* :ref:`developer` : How to contribute to the code
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
