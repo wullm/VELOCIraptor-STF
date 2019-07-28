@@ -30,4 +30,7 @@ fail() {
 	exit 1
 }
 
+# TRAVIS_BUILD_DIR
+# 	The absolute path to the directory where the repository 
+# 	being built has been copied on the worker.
 cd ${TRAVIS_BUILD_DIR}
