@@ -79,11 +79,10 @@ jobs:
       script: ./.travis/test_codelint.sh
 
 before_install:
-- source .travis/before_install.sh
+# - source .travis/before_install.sh
 
 install:
 # - source .travis/install.sh
 
 script:
-- source .travis/before_install.sh
 # - source .travis/test.sh
