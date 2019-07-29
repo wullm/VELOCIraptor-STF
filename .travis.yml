@@ -83,7 +83,7 @@ jobs:
       compiler: gcc
       addons:
         apt:
-          sources: [ubuntu-toolchain-r-test]
+          sources: ubuntu-toolchain-r-test
           packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev]
       env: COMPILER=g++-5
       script: source ./.travis/install.sh
