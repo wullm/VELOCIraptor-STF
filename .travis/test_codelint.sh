@@ -30,7 +30,7 @@ fail() {
 	exit 1
 }
 
-# CUSTOME ENV VARS
-
-# TODO: Parametise clang format targets
-clang-format -assume-filename=.clang-format src/search.cxx | diff -yB src/search.cxx -
+# TODO: Remove once rules are established
+if [ $TRAVIS_BRANCH == 'feature/format' ]
+	clang-format -assume-filename=.clang-format src/search.cxx | diff -yB src/search.cxx -;
+fi
