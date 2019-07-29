@@ -72,7 +72,7 @@ jobs:
     include:
       - stage: codelint_test
         name: 'Code Lint Test'
-        script: source .travis/test_codelint.sh
+        script: .travis/test_codelint.sh
 
 # before_install, install, script
 #   reserved steps to travisCI
