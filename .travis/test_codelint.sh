@@ -32,6 +32,7 @@ fail() {
 
 # TODO: Remove conditional execution after tests are established
 TEST_BRANCH='feature/format';
+TEST_FILE='src/search.cxx';
 if [ "$TRAVIS_BRANCH" == "$TEST_BRANCH" ]; then
-    clang-format -assume-filename=.clang-format src/search.cxx | diff -yB src/search.cxx -
+    clang-format -assume-filename=.clang-format "$TEST_FILE" | diff -yB "$TEST_FILE" -
 fi
