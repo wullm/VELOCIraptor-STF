@@ -31,6 +31,7 @@ fail() {
 }
 
 # TODO: Remove conditional execution after tests are established
+# 	End goal scope is to target *.cxx files
 TEST_BRANCH='feature/format';
 TEST_FILE='src/search.cxx';
 if [ "$TRAVIS_BRANCH" == "$TEST_BRANCH" ]; then
