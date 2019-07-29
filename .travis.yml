@@ -78,6 +78,11 @@ jobs:
     - stage: codelint
       script: ./.travis/test_codelint.sh
 
+# TODO:
+#   Transfer each execution to a job step
+#   This allows conditional execution of for test
+#   Automation
+
 before_install:
 # - source .travis/before_install.sh
 
