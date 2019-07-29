@@ -77,8 +77,8 @@ jobs:
   include:
     - stage: Code Lint
       script: ./.travis/test_codelint.sh
-    - stage: Change Directory
-      script: source ./.travis/before_install.sh
+    - stage: Pre Installation Steps
+      script: ./.travis/before_install.sh
     - stage: Install
       compiler: gcc
       addons:
@@ -87,8 +87,8 @@ jobs:
         packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev]
       env: COMPILER=g++-5
       script: .travis/install.sh
-    - stage: script
-      script: source ./.travis/script.sh
+    - stage: Post Installation Validation
+      script: ./.travis/script.sh
 
 # TODO:
 #   Transfer each execution to a job step
