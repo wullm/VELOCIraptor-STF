@@ -87,12 +87,14 @@ jobs:
     - stage: Code Lint
       script: ./.travis/test_codelint.sh
     - stage: Pre Installation Steps
-      script: ./.travis/before_install.sh
+      script:
+        - ./.travis/before_install.sh
+        - .travis/test.sh
     - stage: Install
+      compiler: gcc
+      addons
       <<: *build1
       script: .travis/install.sh
-    - stage: Post Installation Validation
-      script: source .travis/test.sh
 
 # TODO:
 #   Transfer each execution to a job step
