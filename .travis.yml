@@ -70,7 +70,20 @@ sudo: false
 # 
 # Default steps to travisCI:
 #   before_install, install, script
-#
+
+compiler: gcc
+addons:
+  apt:
+    sources: ubuntu-toolchain-r-test
+    packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev]
+
+env:
+  - COMPILER=g++-5
+  - COMPILER=g++-5 USEGAS=1 USESTARS=1
+  - COMPILER=g++-5 USESWIFT=1
+  - COMPILER=g++-6
+  - COMPILER=g++-7
+
 # source is added to inherit exported variables
 # TODO: include a logical step to execute code linter
 jobs:
@@ -80,12 +93,6 @@ jobs:
     - stage: before_install
       script: source ./.travis/before_install.sh
     - stage: install
-      compiler: gcc
-      addons:
-        apt:
-          sources: ubuntu-toolchain-r-test
-          packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev]
-      env: COMPILER=g++-5
       script: source ./.travis/install.sh
     - stage: script
       script: source ./.travis/script.sh
