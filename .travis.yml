@@ -81,6 +81,7 @@ jobs:
       script: source ./.travis/before_install.sh
     - stage: install
       script: source ./.travis/install.sh
+      env: COMPILER=COMPILER
     - stage: script
       script: source ./.travis/script.sh
 
