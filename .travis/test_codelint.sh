@@ -33,7 +33,8 @@ fail() {
 # TODO: Remove conditional execution after tests are established
 # 	End goal scope is to target *.cxx files
 # 	Code linter result should be considered as soft warnings.
-# 	Rules are meant to be a guide (for now) it improve readability
+# 	Rules are meant to be a guide (for now) its meant improve
+# 	readability amongst developers
 TEST_BRANCH='feature/format';
 TEST_FILE='src/search.cxx';
 if [ "$TRAVIS_BRANCH" == "$TEST_BRANCH" ]; then
