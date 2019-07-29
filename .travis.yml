@@ -73,9 +73,9 @@ before_install:
  - source .travis/before_install.sh
 
 # Execute codelint on feature/format
-codelint:
-- if: branch = feature/format
-  source .travis/test_codelint.sh
+# codelint:
+# - if: branch = feature/format
+#   source .travis/test_codelint.sh
 
 install:
  - source .travis/install.sh
