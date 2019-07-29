@@ -71,9 +71,6 @@ matrix:
 # We "source" it because it exports variables
 before_install:
 - source .travis/before_install.sh
-
-# Execute codelint on feature/format
-codelint:
 - source .travis/test_codelint.sh
 
 install:
