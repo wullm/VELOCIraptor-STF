@@ -74,9 +74,9 @@ before_install:
 
 # Execute codelint on feature/format
 codelint:
-  provider: script
-  script: .travis/test_codelint.sh
-  on:
+  - provider: script
+    script: .travis/test_codelint.sh
+    on:
     branch: feature/format
 
 install:
