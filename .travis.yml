@@ -78,11 +78,11 @@ jobs:
     - stage: codelint
       script: ./.travis/test_codelint.sh
     - stage: before_install
-      script: ./.travis/before_install.sh
+      script: source ./.travis/before_install.sh
     - stage: install
-      script: ./.travis/install.sh
+      script: source ./.travis/install.sh
     - stage: script
-      script: ./.travis/script.sh
+      script: source ./.travis/script.sh
 
 # TODO:
 #   Transfer each execution to a job step
