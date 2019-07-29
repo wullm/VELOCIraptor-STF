@@ -35,5 +35,5 @@ fail() {
 TEST_BRANCH='feature/format';
 TEST_FILE='src/search.cxx';
 if [ "$TRAVIS_BRANCH" == "$TEST_BRANCH" ]; then
-    clang-format -assume-filename=.clang-format "$TEST_FILE" | diff -yB "$TEST_FILE" -
+    clang-format -assume-filename=.clang-format "$TEST_FILE" | diff -yB "$TEST_FILE" -; exit 0
 fi
