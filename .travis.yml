@@ -68,34 +68,17 @@ matrix:
       packages: [clang-format-3.8, g++-7, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
     env: COMPILER=g++-7
 
-stages:
-  - name: before_install
-    source .travis/before_install.sh
-  
-  - name: codelint
-    if: branch = feature/format
-      source .travis/test_codelint.sh
+# We "source" it because it exports variables
+before_install:
+ - source .travis/before_install.sh
 
-  - name: install
-    source .travis/install.sh
-  
-  - name: script
-    source .travis/test.sh
+# Execute codelint on feature/format
+codelint:
+- if: branch = feature/format
+  source .travis/test_codelint.sh
 
-# # We "source" it because it exports variables
-# before_install:
-#  - source .travis/before_install.sh
-# 
-# # Execute codelint on feature/format
-# codelint:
-#   - provider: script
-#     script: .travis/test_codelint.sh
-#     on:
-#     branch: feature/format
-# 
-# install:
-#  - source .travis/install.sh
-# 
-# script:
-# - source .travis/test.sh
-# 
+install:
+ - source .travis/install.sh
+
+script:
+- source .travis/test.sh
