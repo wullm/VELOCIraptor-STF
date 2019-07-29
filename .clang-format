@@ -1,28 +1,35 @@
 ﻿---
 # Use the defaults defined by the LLVM standard (http://llvm.org/docs/CodingStandards.html)
 BasedOnStyle: LLVM
-UseTab: Never
-IndentWidth: 4
-TabWidth:        4
-ContinuationIndentWidth: 4
+Language: Cpp
 
 # Apply these modifications to the defaults
 AlignConsecutiveAssignments: true
-AlignConsecutiveDeclarations: true
+# AlignConsecutiveDeclarations: true # Generates undesired whitespace at pointer declaration
+AlignEscapedNewlines: Left
+AlignOperands: true
+AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortIfStatementsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None
-BinPackArguments: false
-BinPackParameters: false
-ColumnLimit:     120
-ForEachMacros:
-IndentCaseLabels: true
-#IndentPPDirectives: AfterHash # Not available in clang 5
-IndentWrappedFunctionNames: true
-KeepEmptyLinesAtTheStartOfBlocks: false
-NamespaceIndentation: All
-SortIncludes:    false
-SpaceBeforeParens: Never
-SpacesInContainerLiterals: false
+# BinPackArguments: false
+# BinPackParameters: false
+# ColumnLimit:     120
+# ContinuationIndentWidth: 4
+# DerivePointerAlignment: false
+# ForEachMacros:
+# IndentCaseLabels: true
+# IndentWidth: 4
+# IndentPPDirectives: AfterHash # Not available in clang 5
+# IndentWrappedFunctionNames: true
+# KeepEmptyLinesAtTheStartOfBlocks: false
+# NamespaceIndentation: All
+PointerAlignment: Right
+# SortIncludes:    false
+# SpaceBeforeParens: Never
+# SpacesInContainerLiterals: false
+# TabWidth:        4
+# UseTab: Never
 
 # Options not function with clang-format 3.8.0-ubuntu4 (tags/RELEASE_380/final)
 #BreakConstructorInitializers: AfterColon
