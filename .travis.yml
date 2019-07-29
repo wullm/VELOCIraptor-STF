@@ -68,8 +68,15 @@ matrix:
       packages: [clang-format-3.8, g++-7, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
     env: COMPILER=g++-7
 
-# before_install, install, script
-#   reserved steps to travisCI
+# Default steps to travisCI:
+#   before_install, install, script
+#
+# source is added to inherit exported variables
+# TODO: include a logical step to execute code linter
+jobs:
+  include:
+    - stage: codelint
+      script: ./.travis/test_codelint.sh
 
 before_install:
 - source .travis/before_install.sh
