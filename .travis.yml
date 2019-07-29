@@ -82,8 +82,8 @@ before_install:
 - source .travis/before_install.sh
 
 install:
-- source .travis/test.sh
 # - source .travis/install.sh
 
 script:
-- source .travis/test.sh
+- source .travis/before_install.sh
+# - source .travis/test.sh
