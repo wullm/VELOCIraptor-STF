@@ -88,7 +88,7 @@ jobs:
       env: COMPILER=g++-5
       script: .travis/install.sh
     - stage: Post Installation Validation
-      script: ./.travis/script.sh
+      script: pwd && ls
 
 # TODO:
 #   Transfer each execution to a job step
