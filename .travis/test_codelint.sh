@@ -30,7 +30,8 @@ fail() {
 	exit 1
 }
 
-# TODO: Remove once rules are established
-if [ $TRAVIS_BRANCH == 'feature/format' ]
-	clang-format -assume-filename=.clang-format src/search.cxx | diff -yB src/search.cxx -;
+# TODO: Remove conditional execution after tests are established
+TEST_BRANCH='feature/format';
+if [ "$TRAVIS_BRANCH" == "$TEST_BRANCH" ]; then
+    clang-format -assume-filename=.clang-format src/search.cxx | diff -yB src/search.cxx -
 fi
