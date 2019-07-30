@@ -160,34 +160,16 @@ matrix:
       script: ./.travis/test_codelint.sh
     - stage: Install
       <<: *build1
-      script:
-      - ./.travis/install.sh
-      - ./.travis/test.sh
     - stage: Install
       <<: *build2
-      script:
-      - ./.travis/install.sh
-      - ./.travis/test.sh
     - stage: Install
       <<: *build3
-      script:
-      - ./.travis/install.sh
-      - ./.travis/test.sh
     - stage: Install
       <<: *build4
-      script:
-      - ./.travis/install.sh
-      - ./.travis/test.sh
     - stage: Install
       <<: *build5
-      script:
-      - ./.travis/install.sh
-      - ./.travis/test.sh
     - stage: Install
       <<: *build6
-      script:
-      - ./.travis/install.sh
-      - ./.travis/test.sh
     
 # TODO:
 #   Transfer each execution to a job step
@@ -197,8 +179,8 @@ matrix:
 # before_install:
 # - source .travis/before_install.sh
 # 
-# install:
-# - source .travis/install.sh
+install:
+- source .travis/install.sh
 # 
 # script:
 # - source .travis/test.sh
