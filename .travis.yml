@@ -154,23 +154,25 @@ build_list:
 
     # source is added to inherit exported variables
 # TODO: include a logical step to execute code linter
+
 matrix:
   include:
     - stage: Code Lint
       script: ./.travis/test_codelint.sh
-    - stage: Install
+    - stage: Install Dependencies
       <<: *build1
-    - stage: Install
+    - stage: Install Dependencies
       <<: *build2
-    - stage: Install
+    - stage: Install Dependencies
       <<: *build3
-    - stage: Install
+    - stage: Install Dependencies
       <<: *build4
-    - stage: Install
+    - stage: Install Dependencies
       <<: *build5
-    - stage: Install
+    - stage: Install Dependencies
       <<: *build6
-    
+    - stage: Post Implementation Validation
+      script: pwd && ls
 # TODO:
 #   Transfer each execution to a job step
 #   This allows conditional execution of for test
@@ -178,7 +180,9 @@ matrix:
 
 # before_install:
 # - source .travis/before_install.sh
-# 
+#
+
+# install is meant to install binaries from the package manager (apt)
 # install:
 # - source .travis/install.sh
 # 
