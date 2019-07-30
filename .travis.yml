@@ -92,7 +92,6 @@ jobs:
         - ./.travis/test.sh
     - stage: Install
       compiler: gcc
-      addons
       <<: *build1
       script: .travis/install.sh
 
