@@ -79,6 +79,41 @@ build_list:
       sources: ubuntu-toolchain-r-test
       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev]
     env: COMPILER=g++-5
+  - &build2
+    compiler: gcc
+    addons:
+     apt:
+      sources: ubuntu-toolchain-r-test
+      packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+    env: COMPILER=g++-5
+  - &build3
+    compiler: gcc
+    addons:
+     apt:
+      sources: ubuntu-toolchain-r-test
+      packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+    env: COMPILER=g++-5 USEGAS=1 USESTARS=1
+  - &build4
+    compiler: gcc
+    addons:
+     apt:
+      sources: ubuntu-toolchain-r-test
+      packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+    env: COMPILER=g++-5 USESWIFT=1
+  - &build5
+    compiler: gcc
+    addons:
+     apt:
+      sources: ubuntu-toolchain-r-test
+      packages: [clang-format-3.8, g++-6, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+    env: COMPILER=g++-6
+  - &build6
+    compiler: gcc
+    addons:
+     apt:
+      sources: ubuntu-toolchain-r-test
+      packages: [clang-format-3.8, g++-7, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+    env: COMPILER=g++-7
 
     # source is added to inherit exported variables
 # TODO: include a logical step to execute code linter
@@ -86,12 +121,13 @@ jobs:
   include:
     - stage: Code Lint
       script: ./.travis/test_codelint.sh
-    - stage: Pre Installation Steps
-      script:
-        - ./.travis/before_install.sh
     - stage: Install
-      compiler: gcc
       <<: *build1
+      <<: *build2
+      <<: *build3
+      <<: *build4
+      <<: *build5
+      <<: *build6
       script:
       - ./.travis/install.sh
       - ./.travis/test.sh
