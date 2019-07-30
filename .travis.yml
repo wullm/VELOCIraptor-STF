@@ -161,32 +161,35 @@ build_list:
 matrix:
   include:
     - stage: Code Lint
+      <<: *codelint
       script: ./.travis/test_codelint.sh
     - stage: Install
       <<: *build1
+      script:
+        - source .travis/install.sh
+        - source .travis/test.sh
     - stage: Install
       <<: *build2
+      script:
+        - source .travis/install.sh
+        - source .travis/test.sh
     - stage: Install
       <<: *build3
+      script:
+        - source .travis/install.sh
+        - source .travis/test.sh
     - stage: Install
       <<: *build4
+      script:
+        - source .travis/install.sh
+        - source .travis/test.sh
     - stage: Install
       <<: *build5
+      script:
+        - source .travis/install.sh
+        - source .travis/test.sh
     - stage: Install
       <<: *build6
-    - stage: Post installation validation
-      script: pwd && ls
-
-# TODO:
-#   Transfer each execution to a job step
-#   This allows conditional execution of for test
-#   Automation
-
-before_install:
-- source .travis/before_install.sh
-
-install:
-- source .travis/install.sh
-
-script:
-- source .travis/test.sh
+      script:
+        - source .travis/install.sh
+        - source .travis/test.sh
