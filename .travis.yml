@@ -89,11 +89,12 @@ jobs:
     - stage: Pre Installation Steps
       script:
         - ./.travis/before_install.sh
-        - ./.travis/test.sh
     - stage: Install
       compiler: gcc
       <<: *build1
-      script: .travis/install.sh
+      script:
+      - ./.travis/install.sh
+      - ./.travis/test.sh
 
 # TODO:
 #   Transfer each execution to a job step
