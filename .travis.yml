@@ -23,53 +23,9 @@
 # MA 02111-1307  USA
 #
 
+# VARIABLES
 language: cpp
 sudo: false
-
-# We try with both GNU and LLVM
-# When running with gcc-6 we also collect coverage information
-# and upload it to coveralls
-# matrix:
-#  include:
-#   - compiler: gcc
-#     addons:
-#      apt:
-#       sources: ubuntu-toolchain-r-test
-#       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev]
-#     env: COMPILER=g++-5
-#   - compiler: gcc
-#     addons:
-#      apt:
-#       sources: ubuntu-toolchain-r-test
-#       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
-#     env: COMPILER=g++-5
-#   - compiler: gcc
-#     addons:
-#      apt:
-#       sources: ubuntu-toolchain-r-test
-#       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
-#     env: COMPILER=g++-5 USEGAS=1 USESTARS=1
-#   - compiler: gcc
-#     addons:
-#      apt:
-#       sources: ubuntu-toolchain-r-test
-#       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
-#     env: COMPILER=g++-5 USESWIFT=1
-#   - compiler: gcc
-#     addons:
-#      apt:
-#       sources: ubuntu-toolchain-r-test
-#       packages: [clang-format-3.8, g++-6, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
-#     env: COMPILER=g++-6
-#   - compiler: gcc
-#     addons:
-#      apt:
-#       sources: ubuntu-toolchain-r-test
-#       packages: [clang-format-3.8, g++-7, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
-#     env: COMPILER=g++-7
-# 
-# Default steps to travisCI:
-#   before_install, install, script
 
 package_list:
   - &package1
@@ -151,9 +107,54 @@ build_list:
       packages: *package5
     env: COMPILER=g++-7
 
+# We try with both GNU and LLVM
+# When running with gcc-6 we also collect coverage information
+# and upload it to coveralls
+# matrix:
+#  include:
+#   - compiler: gcc
+#     addons:
+#      apt:
+#       sources: ubuntu-toolchain-r-test
+#       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev]
+#     env: COMPILER=g++-5
+#   - compiler: gcc
+#     addons:
+#      apt:
+#       sources: ubuntu-toolchain-r-test
+#       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+#     env: COMPILER=g++-5
+#   - compiler: gcc
+#     addons:
+#      apt:
+#       sources: ubuntu-toolchain-r-test
+#       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+#     env: COMPILER=g++-5 USEGAS=1 USESTARS=1
+#   - compiler: gcc
+#     addons:
+#      apt:
+#       sources: ubuntu-toolchain-r-test
+#       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+#     env: COMPILER=g++-5 USESWIFT=1
+#   - compiler: gcc
+#     addons:
+#      apt:
+#       sources: ubuntu-toolchain-r-test
+#       packages: [clang-format-3.8, g++-6, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+#     env: COMPILER=g++-6
+#   - compiler: gcc
+#     addons:
+#      apt:
+#       sources: ubuntu-toolchain-r-test
+#       packages: [clang-format-3.8, g++-7, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+#     env: COMPILER=g++-7
+# 
+# Default steps to travisCI:
+#   before_install, install, script
+
     # source is added to inherit exported variables
 # TODO: include a logical step to execute code linter
-jobs:
+matrix:
   include:
     - stage: Code Lint
       script: ./.travis/test_codelint.sh
@@ -187,17 +188,17 @@ jobs:
       script:
       - ./.travis/install.sh
       - ./.travis/test.sh
-
+    
 # TODO:
 #   Transfer each execution to a job step
 #   This allows conditional execution of for test
 #   Automation
 
-# before_install:
-# - source .travis/before_install.sh
+before_install:
+- source .travis/before_install.sh
 
-# install:
-# - source .travis/install.sh
+install:
+- source .travis/install.sh
 
-# script:
-# - source .travis/test.sh
+script:
+- source .travis/test.sh
