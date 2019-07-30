@@ -179,8 +179,9 @@ matrix:
 # before_install:
 # - source .travis/before_install.sh
 # 
-install:
-- source .travis/install.sh
+# install:
+# - source .travis/install.sh
 # 
-# script:
+script:
+  - source .travis/install.sh
 # - source .travis/test.sh
