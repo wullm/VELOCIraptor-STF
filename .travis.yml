@@ -71,13 +71,26 @@ sudo: false
 # Default steps to travisCI:
 #   before_install, install, script
 
+package_list:
+  - &package1
+    - clang-format-3.8
+    - g++-5
+    - libhdf5-dev
+    - hdf5-tools 
+    - libgsl0-dev
+  - &package2
+  - &package3
+  - &package4
+  - &package5
+  - &package6
+
 build_list:
   - &build1
     compiler: gcc
     addons:
      apt:
       sources: ubuntu-toolchain-r-test
-      packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev]
+      packages: *package1
     env: COMPILER=g++-5
   - &build2
     compiler: gcc
