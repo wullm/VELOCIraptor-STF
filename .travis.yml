@@ -28,7 +28,8 @@ language: cpp
 sudo: false
 
 package_list:
-  - &codelint
+  - &package_codelint
+    - clang-format-3.8
   - &package1
     - g++-5
     - libhdf5-dev
@@ -59,6 +60,13 @@ package_list:
     - libgsl0-dev
     - libopenmpi-dev
 
+scripts_list:
+  - &scripts_compile
+    - .travis/install.sh
+    - .travis/test.sh
+  - &scripts_codelint
+    - .travis/test_codelint.sh
+
 build_list:
   - &codelint
     compiler: gcc
@@ -67,12 +75,15 @@ build_list:
       sources: ubuntu-toolchain-r-test
       packages: *codelint
     env: TEST_BRANCH=feature/format
+    script: &scripts_codelint
+
   - &build1
     compiler: gcc
     addons:
      apt:
       sources: ubuntu-toolchain-r-test
       packages: *package1
+    script: &scripts_compile
     env: COMPILER=g++-5
   - &build2
     compiler: gcc
@@ -80,6 +91,7 @@ build_list:
      apt:
       sources: ubuntu-toolchain-r-test
       packages: *package2
+    script: &scripts_compile
     env: COMPILER=g++-5
   - &build3
     compiler: gcc
@@ -87,6 +99,7 @@ build_list:
      apt:
       sources: ubuntu-toolchain-r-test
       packages: *package2
+    script: &scripts_compile
     env: COMPILER=g++-5 USEGAS=1 USESTARS=1
   - &build4
     compiler: gcc
@@ -94,6 +107,8 @@ build_list:
      apt:
       sources: ubuntu-toolchain-r-test
       packages: *package3
+    script:
+    script: &scripts_compile
     env: COMPILER=g++-5 USESWIFT=1
   - &build5
     compiler: gcc
@@ -101,6 +116,8 @@ build_list:
      apt:
       sources: ubuntu-toolchain-r-test
       packages: *package4
+    script:
+    script: &scripts_compile
     env: COMPILER=g++-6
   - &build6
     compiler: gcc
@@ -108,88 +125,27 @@ build_list:
      apt:
       sources: ubuntu-toolchain-r-test
       packages: *package5
+    script:
+    script: &scripts_compile
     env: COMPILER=g++-7
 
 # We try with both GNU and LLVM
 # When running with gcc-6 we also collect coverage information
 # and upload it to coveralls
-# matrix:
-#  include:
-#   - compiler: gcc
-#     addons:
-#      apt:
-#       sources: ubuntu-toolchain-r-test
-#       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev]
-#     env: COMPILER=g++-5
-#   - compiler: gcc
-#     addons:
-#      apt:
-#       sources: ubuntu-toolchain-r-test
-#       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
-#     env: COMPILER=g++-5
-#   - compiler: gcc
-#     addons:
-#      apt:
-#       sources: ubuntu-toolchain-r-test
-#       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
-#     env: COMPILER=g++-5 USEGAS=1 USESTARS=1
-#   - compiler: gcc
-#     addons:
-#      apt:
-#       sources: ubuntu-toolchain-r-test
-#       packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
-#     env: COMPILER=g++-5 USESWIFT=1
-#   - compiler: gcc
-#     addons:
-#      apt:
-#       sources: ubuntu-toolchain-r-test
-#       packages: [clang-format-3.8, g++-6, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
-#     env: COMPILER=g++-6
-#   - compiler: gcc
-#     addons:
-#      apt:
-#       sources: ubuntu-toolchain-r-test
-#       packages: [clang-format-3.8, g++-7, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
-#     env: COMPILER=g++-7
-# 
-# Default steps to travisCI:
-#   before_install, install, script
-
-    # source is added to inherit exported variables
-# TODO: include a logical step to execute code linter
-
 matrix:
   include:
     - stage: Code Lint
-      <<: *codelint
-      script: ./.travis/test_codelint.sh
+      <<: *package_codelint
     - stage: Install
       <<: *build1
-      script:
-        - source .travis/install.sh
-        - source .travis/test.sh
     - stage: Install
       <<: *build2
-      script:
-        - source .travis/install.sh
-        - source .travis/test.sh
     - stage: Install
       <<: *build3
-      script:
-        - source .travis/install.sh
-        - source .travis/test.sh
     - stage: Install
       <<: *build4
-      script:
-        - source .travis/install.sh
-        - source .travis/test.sh
     - stage: Install
       <<: *build5
-      script:
-        - source .travis/install.sh
-        - source .travis/test.sh
     - stage: Install
       <<: *build6
-      script:
-        - source .travis/install.sh
-        - source .travis/test.sh
+    # Scenario driven test steps can be added here
