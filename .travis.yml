@@ -94,19 +94,12 @@ package_list:
     - libopenmpi-dev
   - &package4
     - clang-format-3.8
-    - g++-5
-    - libhdf5-dev
-    - hdf5-tools
-    - libgsl0-dev
-    - libopenmpi-dev
-  - &package5
-    - clang-format-3.8
     - g++-6
     - libhdf5-dev
     - hdf5-tools
     - libgsl0-dev
     - libopenmpi-dev
-  - &package6
+  - &package5
     - clang-format-3.8
     - g++-7
     - libhdf5-dev
@@ -134,28 +127,28 @@ build_list:
     addons:
      apt:
       sources: ubuntu-toolchain-r-test
-      packages: *package3
+      packages: *package2
     env: COMPILER=g++-5 USEGAS=1 USESTARS=1
   - &build4
     compiler: gcc
     addons:
      apt:
       sources: ubuntu-toolchain-r-test
-      packages: *package4
+      packages: *package3
     env: COMPILER=g++-5 USESWIFT=1
   - &build5
     compiler: gcc
     addons:
      apt:
       sources: ubuntu-toolchain-r-test
-      packages: *package5
+      packages: *package4
     env: COMPILER=g++-6
   - &build6
     compiler: gcc
     addons:
      apt:
       sources: ubuntu-toolchain-r-test
-      packages: *package6
+      packages: *package5
     env: COMPILER=g++-7
 
     # source is added to inherit exported variables
