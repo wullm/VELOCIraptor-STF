@@ -28,35 +28,31 @@ language: cpp
 sudo: false
 
 package_list:
+  - &codelint
   - &package1
-    - clang-format-3.8
     - g++-5
     - libhdf5-dev
     - hdf5-tools 
     - libgsl0-dev
   - &package2
-    - clang-format-3.8
     - g++-5
     - libhdf5-dev
     - hdf5-tools
     - libgsl0-dev
     - libopenmpi-dev
   - &package3
-    - clang-format-3.8
     - g++-5
     - libhdf5-dev
     - hdf5-tools
     - libgsl0-dev
     - libopenmpi-dev
   - &package4
-    - clang-format-3.8
     - g++-6
     - libhdf5-dev
     - hdf5-tools
     - libgsl0-dev
     - libopenmpi-dev
   - &package5
-    - clang-format-3.8
     - g++-7
     - libhdf5-dev
     - hdf5-tools
@@ -64,6 +60,13 @@ package_list:
     - libopenmpi-dev
 
 build_list:
+  - &codelint
+    compiler: gcc
+    addons:
+     apt:
+      sources: ubuntu-toolchain-r-test
+      packages: *codelint
+    env: TEST_BRANCH=feature/format
   - &build1
     compiler: gcc
     addons:
@@ -159,33 +162,31 @@ matrix:
   include:
     - stage: Code Lint
       script: ./.travis/test_codelint.sh
-    - stage: Install Dependencies
+    - stage: Install
       <<: *build1
-    - stage: Install Dependencies
+    - stage: Install
       <<: *build2
-    - stage: Install Dependencies
+    - stage: Install
       <<: *build3
-    - stage: Install Dependencies
+    - stage: Install
       <<: *build4
-    - stage: Install Dependencies
+    - stage: Install
       <<: *build5
-    - stage: Install Dependencies
+    - stage: Install
       <<: *build6
-    - stage: Post Implementation Validation
+    - stage: Post installation validation
       script: pwd && ls
+
 # TODO:
 #   Transfer each execution to a job step
 #   This allows conditional execution of for test
 #   Automation
 
-# before_install:
-# - source .travis/before_install.sh
-#
+before_install:
+- source .travis/before_install.sh
 
-# install is meant to install binaries from the package manager (apt)
-# install:
-# - source .travis/install.sh
-# 
+install:
+- source .travis/install.sh
+
 script:
-  - source .travis/install.sh
-# - source .travis/test.sh
+- source .travis/test.sh
