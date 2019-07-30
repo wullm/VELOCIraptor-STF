@@ -79,10 +79,40 @@ package_list:
     - hdf5-tools 
     - libgsl0-dev
   - &package2
+    - clang-format-3.8
+    - g++-5
+    - libhdf5-dev
+    - hdf5-tools
+    - libgsl0-dev
+    - libopenmpi-dev
   - &package3
+    - clang-format-3.8
+    - g++-5
+    - libhdf5-dev
+    - hdf5-tools
+    - libgsl0-dev
+    - libopenmpi-dev
   - &package4
+    - clang-format-3.8
+    - g++-5
+    - libhdf5-dev
+    - hdf5-tools
+    - libgsl0-dev
+    - libopenmpi-dev
   - &package5
+    - clang-format-3.8
+    - g++-6
+    - libhdf5-dev
+    - hdf5-tools
+    - libgsl0-dev
+    - libopenmpi-dev
   - &package6
+    - clang-format-3.8
+    - g++-7
+    - libhdf5-dev
+    - hdf5-tools
+    - libgsl0-dev
+    - libopenmpi-dev
 
 build_list:
   - &build1
@@ -97,35 +127,35 @@ build_list:
     addons:
      apt:
       sources: ubuntu-toolchain-r-test
-      packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+      packages: *package2
     env: COMPILER=g++-5
   - &build3
     compiler: gcc
     addons:
      apt:
       sources: ubuntu-toolchain-r-test
-      packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+      packages: *package3
     env: COMPILER=g++-5 USEGAS=1 USESTARS=1
   - &build4
     compiler: gcc
     addons:
      apt:
       sources: ubuntu-toolchain-r-test
-      packages: [clang-format-3.8, g++-5, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+      packages: *package4
     env: COMPILER=g++-5 USESWIFT=1
   - &build5
     compiler: gcc
     addons:
      apt:
       sources: ubuntu-toolchain-r-test
-      packages: [clang-format-3.8, g++-6, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+      packages: *package5
     env: COMPILER=g++-6
   - &build6
     compiler: gcc
     addons:
      apt:
       sources: ubuntu-toolchain-r-test
-      packages: [clang-format-3.8, g++-7, libhdf5-dev, hdf5-tools, libgsl0-dev, libopenmpi-dev]
+      packages: *package6
     env: COMPILER=g++-7
 
     # source is added to inherit exported variables
