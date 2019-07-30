@@ -89,7 +89,7 @@ jobs:
     - stage: Pre Installation Steps
       script:
         - ./.travis/before_install.sh
-        - .travis/test.sh
+        - ./.travis/test.sh
     - stage: Install
       compiler: gcc
       addons
