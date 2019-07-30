@@ -194,11 +194,11 @@ matrix:
 #   This allows conditional execution of for test
 #   Automation
 
-before_install:
-- source .travis/before_install.sh
-
-install:
-- source .travis/install.sh
-
-script:
-- source .travis/test.sh
+# before_install:
+# - source .travis/before_install.sh
+# 
+# install:
+# - source .travis/install.sh
+# 
+# script:
+# - source .travis/test.sh
