@@ -5,13 +5,13 @@ Language: Cpp
 
 # Apply these modifications to the defaults
 AlignConsecutiveAssignments: true
-# AlignConsecutiveDeclarations: true # Generates undesired whitespace at pointer declaration
+AlignConsecutiveDeclarations: true # Generates undesired whitespace at pointer declaration
 AlignEscapedNewlines: Left
 AlignOperands: true
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortIfStatementsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: None
+# AllowShortFunctionsOnASingleLine: None
 # BinPackArguments: false
 # BinPackParameters: false
 # ColumnLimit:     120
@@ -24,7 +24,7 @@ AllowShortFunctionsOnASingleLine: None
 # IndentWrappedFunctionNames: true
 # KeepEmptyLinesAtTheStartOfBlocks: false
 # NamespaceIndentation: All
-PointerAlignment: Right
+# PointerAlignment: Right
 # SortIncludes:    false
 # SpaceBeforeParens: Never
 # SpacesInContainerLiterals: false

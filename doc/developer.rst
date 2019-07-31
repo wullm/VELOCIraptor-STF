@@ -8,7 +8,8 @@ Developer Guide
 Style
 =====
 
-**Velociraptor** is written in C++11. We suggest that code be written in ... Packages such as `clang-format <https://clang.llvm.org/docs/ClangFormat.html>`_ and `clang-tidy <https://clang.llvm.org/extra/clang-tidy/>`_ (linter tool) can be used to ensure new code conforms to the current formatting style.
+**Velociraptor** is written in C++11. We suggest for the code to undergo a codelinting process in order to have a uniform coding style for readability.
+Packages such as `clang-format <https://clang.llvm.org/docs/ClangFormat.html>`_ and `clang-tidy <https://clang.llvm.org/extra/clang-tidy/>`_ (linter tool) can be used to ensure new code conforms to the current formatting style.
 
 .. _usecases:
 

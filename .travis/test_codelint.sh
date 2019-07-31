@@ -40,6 +40,6 @@ OUT_FILE='./search.clang.cxx';
 
 if [ "$TRAVIS_BRANCH" == "$TEST_BRANCH" ]; then
 	rm -f "$OUT_FILE"
-    clang-format -assume-filename=.clang-format "$TEST_FILE" > "$OUT_FILE"
+    clang-format-3.8 -assume-filename=.clang-format "$TEST_FILE" >> "$OUT_FILE"
 	diff -yB --suppress-common-lines "$TEST_FILE" "$OUT_FILE"; exit 0;
 fi
