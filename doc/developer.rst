@@ -9,7 +9,7 @@ Style
 =====
 
 **Velociraptor** is written in C++11. We suggest for the code to undergo a codelinting process in order to have a uniform coding style for readability.
-Packages such as `clang-format <https://clang.llvm.org/docs/ClangFormat.html>`_ and `clang-tidy <https://clang.llvm.org/extra/clang-tidy/>`_ (linter tool) can be used to ensure new code conforms to the current formatting style.
+Packages such as `clang-format <https://clang.llvm.org/docs/ClangFormat.html>`_ and `clang-tidy <https://clang.llvm.org/extra/clang-tidy/>`_ (linter tool) can be used to ensure new code conforms to the current code style.
 
 .. _usecases:
 
@@ -33,6 +33,12 @@ The code makes use of `GitHub <https://github.com/>`_ for version control and `T
 
 Ideally, a developer should fork from the main branch (or any desired branch) and proceed to begin making edits to the source code. The code makes use of two submodules: `NBodylib <https://github.com/pelahi/NBodylib>`_ and `Velociraptor_Python_Tools <https://github.com/pelahi/Velociraptor_Python_Tools>`_. The critical library of interest for developers is **NBodylib**, which is a C++ library that contains classes used by **VELOCIraptor**.
 
+.. _codelintingtests:
+Testing Code style
+-------------------
+To standardise codestyles, **Clang-format-3.8** is used to reformat source code. The rules are present in **.clang-format**. 
+
+.. note:: To generate the codelint results of a specific file to a terminal, execute clang-format -assume-filename=.clang-format "$TEST_FILE".
 
 .. _compilationtests:
 
