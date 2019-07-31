@@ -38,7 +38,7 @@ Testing Code style
 -------------------
 To standardise codestyles, **Clang-format-3.8** is used to reformat source code. The rules are present in **.clang-format**. 
 
-.. note:: To generate the codelint results of a specific file to a terminal, execute clang-format -assume-filename=.clang-format "$TEST_FILE".
+.. note:: To generate the codelint results of a specific file to a terminal, execute<br/>clang-format -assume-filename=.clang-format "$TEST_FILE"<br/>$TEST_FILE is a variable for the relative path of a target file.
 
 .. _compilationtests:
 
