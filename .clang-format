@@ -5,7 +5,7 @@ Language: Cpp
 
 # Apply these modifications to the defaults
 AlignConsecutiveAssignments: true
-AlignConsecutiveDeclarations: true # Generates undesired whitespace at pointer declaration
+AlignConsecutiveDeclarations: true
 AlignEscapedNewlines: Left
 AlignOperands: true
 AlignTrailingComments: true
