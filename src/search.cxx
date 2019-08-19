@@ -350,8 +350,8 @@ Int_t *SearchFullSet(Options &opt, const Int_t nbodies, vector<Particle> &Part,
 
     // I have adjusted FOF data structure to have local group length and also
     // seperated the export particles from export fof data the reason is that
-    // will have to update fof data in iterative section but don't need to update
-    // particle information.
+    // will have to update fof data in iterative section but don't need to
+    // update particle information.
 #ifdef SWIFTINTERFACE
     MPIBuildParticleExportListUsingMesh(libvelociraptorOpt, nbodies,
                                         Part.data(), pfof, Len, sqrt(param[1]));
@@ -498,7 +498,7 @@ Int_t *SearchFullSet(Options &opt, const Int_t nbodies, vector<Particle> &Part,
   // altered in mpi but set to nbodies in non-mpi
   if (opt.fofbgtype <= FOF6D && totalgroups > 0) {
     ///\todo In the 6DFOF, particles are sorted into group order but then
-    ///resorted back into input index order this is not necessary if the tipsy
+    /// resorted back into input index order this is not necessary if the tipsy
     /// still .grp array does not need to be constructed. we would removing
     /// storing the old ids alter how the local group lists are stiched together
     /// into the larger array and remove a slow sort back into original ID order
@@ -665,8 +665,8 @@ Int_t *SearchFullSet(Options &opt, const Int_t nbodies, vector<Particle> &Part,
     Int_t **  pfofomp;
     Int_t *   ngomp;
     // now split search by group. If doing fixed velocity dispersion search can
-    // group together all small 3DFOF groups into a single search otherwise don't
-    // group together all small groups
+    // group together all small 3DFOF groups into a single search otherwise
+    // don't group together all small groups
     iend = numgroups;
     if (opt.fofbgtype == FOF6D || opt.fofbgtype == FOFSTNOSUBSET) {
       // determine chunks to search, where groups are split down to objects that
@@ -688,9 +688,9 @@ Int_t *SearchFullSet(Options &opt, const Int_t nbodies, vector<Particle> &Part,
         paramomp[j + i * 20] = param[j];
 
     ///\todo need to improve kdtree 6dfof construction to make use of scaling
-    ///dimensions and running in 6d. before ran FOF criterion on physical tree
-    /// but try scaling particles according to linking lengths, run 6d phase tree
-    /// and simple FOF ball search
+    /// dimensions and running in 6d. before ran FOF criterion on physical tree
+    /// but try scaling particles according to linking lengths, run 6d phase
+    /// tree and simple FOF ball search
     pfofomp = new Int_t *[iend + 1];
     ngomp   = new Int_t[iend + 1];
     Double_t xscaling, vscaling;
@@ -750,7 +750,7 @@ Int_t *SearchFullSet(Options &opt, const Int_t nbodies, vector<Particle> &Part,
         pfof6dfof[i] = 0;
       ng = 0;
       ///\todo restructure how data is stored in the pfof6dfof since will no
-      ///longer necessarily keep stuff in index order
+      /// longer necessarily keep stuff in index order
       for (i = 1; i <= iend; i++) {
         for (int j = 0; j < numingroup[i]; j++) {
           pfof6dfof[ids[Part[noffset[i] + j].GetID() + noffset[i]]] =
@@ -1381,13 +1381,13 @@ Int_t *SearchSubset(Options &opt, const Int_t nbodies, const Int_t nsubset,
 
     // first search groups near cell size as subhaloes near this scale may have
     // central regions defining background and as such these particles will not
-    // appear to be distinct outliers (will probably have ell~1-2) thus resulting
-    // in an underestimate in the mass and maximum circular velocity for compact
-    // massive (sub)halos this linking uses a smaller physical linking length and
-    // searchs already tagged particles for any untagged particles included in
-    // the larger subset made with the lower ellthreshold so long as one particle
-    // lies about the high ell threshold, the particles can be check to see if
-    // they lie in the same phase-space.
+    // appear to be distinct outliers (will probably have ell~1-2) thus
+    // resulting in an underestimate in the mass and maximum circular velocity
+    // for compact massive (sub)halos this linking uses a smaller physical
+    // linking length and searchs already tagged particles for any untagged
+    // particles included in the larger subset made with the lower ellthreshold
+    // so long as one particle lies about the high ell threshold, the particles
+    // can be check to see if they lie in the same phase-space.
     param[1] = (opt.ellxscale * opt.ellxscale) * (opt.ellphys * opt.ellphys);
     param[2] = (opt.ellvscale * opt.ellvscale) * (opt.ellvel * opt.ellvel);
     param[6] = (opt.ellxscale * opt.ellxscale) * (opt.ellphys * opt.ellphys);
@@ -1450,10 +1450,11 @@ Int_t *SearchSubset(Options &opt, const Int_t nbodies, const Int_t nsubset,
           nnID[0][Partsubset[i].GetID()] == 0)
         nnID[0][Partsubset[i].GetID()] = -1;
 
-    fofcmp   = &FOFStreamwithprob;
-    param[1] = (opt.ellxscale * opt.ellxscale) *
-               (opt.ellphys * opt.ellphys); // *opt.ellxfac*opt.ellxfac;//increase
-                                            // physical linking length slightly
+    fofcmp = &FOFStreamwithprob;
+    param[1] =
+        (opt.ellxscale * opt.ellxscale) *
+        (opt.ellphys * opt.ellphys); // *opt.ellxfac*opt.ellxfac;//increase
+                                     // physical linking length slightly
     param[6] = (opt.ellxscale * opt.ellxscale) *
                (opt.ellphys * opt.ellphys); // *opt.ellxfac*opt.ellxfac;
     param[7] = (opt.Vratio) * opt.vfac;
@@ -1748,8 +1749,8 @@ Int_t *SearchSubset(Options &opt, const Int_t nbodies, const Int_t nsubset,
 
       // now combine results such that if particle already belongs to a
       // substructure ignore otherwise leave tagged. Then check if these new
-      // background substructures share enough links with the other substructures
-      // that they should be joined.
+      // background substructures share enough links with the other
+      // substructures that they should be joined.
       if (numgroupsbg >= bgoffset + 1) {
         int   mergers;
         int * igflag, *ilflag;
@@ -2006,7 +2007,7 @@ Int_t *SearchSubset(Options &opt, const Int_t nbodies, const Int_t nsubset,
 
       // calculate inertia tensor (assumes that system is alread in CM frame
       ///\todo should add checks to see if system is in CM frame and if it is
-      ///not, move it to that frame
+      /// not, move it to that frame
       Matrix myeigvec, myI;
       CalcPosSigmaTensor(nsubset, Partsubset, XX, YY, ZZ, myeigvec, myI, -1);
       xscale2 = sqrt(XX + YY + ZZ);
@@ -2108,8 +2109,8 @@ Int_t *SearchSubset(Options &opt, const Int_t nbodies, const Int_t nsubset,
       // for (i=1;i<=newnumgroupsbg;i++) dispfac[i]=param[7];
 
       // now keep doing this till zero new groups are found, copying over info
-      // of new groups above bgoffset as we go store how much the dispersion will
-      // change given the allowed fof envelop;
+      // of new groups above bgoffset as we go store how much the dispersion
+      // will change given the allowed fof envelop;
       Double_t dispval = opt.halocorevfaciter * opt.halocorevfaciter *
                          opt.halocorexfaciter * opt.halocorexfaciter;
       Double_t dispvaltot = 1.0;
@@ -2129,8 +2130,8 @@ Int_t *SearchSubset(Options &opt, const Int_t nbodies, const Int_t nsubset,
           minsize = opt.MinSize;
         dispvaltot *= dispval;
         // we adjust the particles potentials so as to ignore already tagged
-        // particles using FOFcheckbg here since loop just iterates to search the
-        // largest core, we just set all previously tagged particles not
+        // particles using FOFcheckbg here since loop just iterates to search
+        // the largest core, we just set all previously tagged particles not
         // belonging to main core as 1
         for (i = 0; i < nsubset; i++)
           Partsubset[i].SetPotential((pfofbgnew[Partsubset[i].GetID()] != 1) +
@@ -2219,8 +2220,8 @@ Int_t *SearchSubset(Options &opt, const Int_t nbodies, const Int_t nsubset,
 
 #ifdef USEMPI
   // now if substructures are subsubstructures, then the region of interest has
-  // already been localized to a single MPI domain so do not need to search other
-  // mpi domains
+  // already been localized to a single MPI domain so do not need to search
+  // other mpi domains
   if (sublevel == 0) {
 
     // if using MPI must determine which local particles need to be exported to
@@ -2267,8 +2268,8 @@ Int_t *SearchSubset(Options &opt, const Int_t nbodies, const Int_t nsubset,
     FoFDataGet  = new fofdata_in[NExport];
     // I have adjusted FOF data structure to have local group length and also
     // seperated the export particles from export fof data the reason is that
-    // will have to update fof data in iterative section but don't need to update
-    // particle information.
+    // will have to update fof data in iterative section but don't need to
+    // update particle information.
 #ifdef SWIFTINTERFACE
     MPIBuildParticleExportListUsingMesh(libvelociraptorOpt, nsubset, Partsubset,
                                         pfof, Len, sqrt(param[1]));
@@ -2322,7 +2323,7 @@ Int_t *SearchSubset(Options &opt, const Int_t nbodies, const Int_t nsubset,
     Particle[newnbodies]; Partsubset=mpi_Part1; #endif
     */
     ///\todo Before final compilation of data, should have unbind here but must
-    ///adjust unbind so it does not call reordergroupids in it though it might
+    /// adjust unbind so it does not call reordergroupids in it though it might
     /// be okay.
     // And compile the information and remove groups smaller than minsize
     numgroups = MPICompileGroups(newnbodies, Partsubset, pfof, opt.MinSize);
@@ -2430,7 +2431,7 @@ void HaloCoreGrowth(Options &opt, const Int_t nsubset, Particle *&Partsubset,
         }
         CalcPhaseSigmaTensor(ncore[i], &Pcore[noffset[i]], invdisp[i]);
         ///\todo must be issue with either phase-space tensor or number of
-        ///particles assigned as it is possible to get haloes of size 0
+        /// particles assigned as it is possible to get haloes of size 0
         invdisp[i] = invdisp[i].Inverse();
       }
       delete[] Pcore;
@@ -2574,8 +2575,8 @@ void HaloCoreGrowth(Options &opt, const Int_t nsubset, Particle *&Partsubset,
       } //
     }   // end of phase core growth
     // otherwise, use simplier calculation: find nearest particles belonging to
-    // cores, calculate distances to these particles and assign untagged particle
-    // to the same group as the closest core particle
+    // cores, calculate distances to these particles and assign untagged
+    // particle to the same group as the closest core particle
     else {
       if (opt.iverbose >= 2)
         cout << "Searching untagged particles to assign to cores using simple "
@@ -2612,7 +2613,8 @@ void HaloCoreGrowth(Options &opt, const Int_t nsubset, Particle *&Partsubset,
           // for each particle in the subset if not assigned to any group (core
           // or substructure) then assign particle this is done using either a
           // simple distance/sigmax+velocity distance/sigmav calculation to the
-          // nearest core particles or if a more complex routine is required then
+          // nearest core particles or if a more complex routine is required
+          // then
           // ...
           for (i = 0; i < nsubset; i++) {
             tid  = omp_get_thread_num();
@@ -3512,8 +3514,8 @@ void SearchSubSub(Options &opt, const Int_t nsubset,
                 pfof[subpglist[i][j]] = ngroup + ngroupidoffset + subpfof[j];
             ngroupidoffset += subngroup[i];
             // now alter subsubpglist so that index pointed is global subset
-            // index as global subset is used to get the particles to be searched
-            // for subsubstructure
+            // index as global subset is used to get the particles to be
+            // searched for subsubstructure
             for (j = 1; j <= subngroup[i]; j++)
               for (Int_t k = 0; k < subsubnumingroup[i][j]; k++)
                 subsubpglist[i][j][k] = subpglist[i][subsubpglist[i][j][k]];
@@ -3597,8 +3599,8 @@ void SearchSubSub(Options &opt, const Int_t nsubset,
               pcsld->gidhead[iindex] = &pfof[subpglist[i][ii]];
               pcsld->Phead[iindex]   = &Partsubset[subpglist[i][ii]];
               // only for field haloes does the gidparenthead and
-              // giduberparenthead need to be adjusted but only if 3DFOFs are not
-              // kept as uber parents
+              // giduberparenthead need to be adjusted but only if 3DFOFs are
+              // not kept as uber parents
               if (sublevel == 1 && opt.iKeepFOF == 0) {
                 pcsld->gidparenthead[iindex]     = &pfof[subpglist[i][ii]];
                 pcsld->giduberparenthead[iindex] = &pfof[subpglist[i][ii]];
@@ -3752,8 +3754,8 @@ void SearchSubSub(Options &opt, const Int_t nsubset,
             // copy the first non-NULL pointer to current NULL pointers,
             // ie: for a non-existing structure which has been unbound, remove
             // it from the structure list by copying the pointers of the next
-            // still viable structure to that address and setting the pointers at
-            // the new position, j, to NULL
+            // still viable structure to that address and setting the pointers
+            // at the new position, j, to NULL
             psldata->Phead[i]             = psldata->Phead[j];
             psldata->gidhead[i]           = psldata->gidhead[j];
             psldata->gidparenthead[i]     = psldata->gidparenthead[j];
@@ -4095,8 +4097,8 @@ Int_t *SearchBaryons(Options &opt, Int_t &nbaryons, Particle *&Pbaryons,
                (opt.ellhalophysfac * opt.ellhalophysfac);
     param[6] = param[1];
     // also check to see if velocity scale still zero find dispersion of largest
-    // halo otherwise search uses the largest average "local" velocity dispersion
-    // of halo identified in the mpi domain.
+    // halo otherwise search uses the largest average "local" velocity
+    // dispersion of halo identified in the mpi domain.
     if (opt.HaloVelDispScale == 0) {
       Double_t   mtotregion, vx, vy, vz;
       Coordinate vmean;
@@ -4120,8 +4122,8 @@ Int_t *SearchBaryons(Options &opt, Int_t &nbaryons, Particle *&Pbaryons,
     } else
       param[2] = opt.HaloVelDispScale *
                  16.0; // here use factor of 4 in local dispersion //could
-                       // remove entirely and just use global dispersion but this
-                       // will over compensate.
+                       // remove entirely and just use global dispersion but
+                       // this will over compensate.
     param[7] = param[2];
 
     // Set fof type
@@ -4281,7 +4283,8 @@ Int_t *SearchBaryons(Options &opt, Int_t &nbaryons, Particle *&Pbaryons,
     //#endif
     {
       // note that if mpireduce is not set then all info is copied into the
-      // FOFGroupData structure and must deallocated and reallocate Pbaryon array
+      // FOFGroupData structure and must deallocated and reallocate Pbaryon
+      // array
       delete[] Pbaryons;
       Pbaryons = new Particle[newnbaryons];
       delete[] pfofbaryons;
@@ -4534,8 +4537,8 @@ Int_t *SearchBaryons(Options &opt, Int_t &nbaryons, Particle *&Pbaryons,
             // copy the first non-NULL pointer to current NULL pointers,
             // ie: for a non-existing structure which has been unbound, remove
             // it from the structure list by copying the pointers of the next
-            // still viable structure to that address and setting the pointers at
-            // the new position, j, to NULL
+            // still viable structure to that address and setting the pointers
+            // at the new position, j, to NULL
             papsldata[i]->Phead[k]         = papsldata[i]->Phead[j];
             papsldata[i]->gidhead[k]       = papsldata[i]->gidhead[j];
             papsldata[i]->gidparenthead[k] = papsldata[i]->gidparenthead[j];
@@ -4884,12 +4887,12 @@ inline void DetermineGroupMergerConnections(
 }
 
 /// Routine uses a tree to mark all particles meeting the search criteria given
-/// by the FOF comparison function and the paramaters in param. The particles are
-/// marked in nnID in ID order Only the set of particles in newlinksIndex are
-/// searched for other particles meeting this criteria. Note that the tree search
-/// is set up such that if the marker value (here given by pfof) greater than the
-/// particle's current id marker or the particle's current marker is 0, the
-/// particle's nnID value is set to the marker value.
+/// by the FOF comparison function and the paramaters in param. The particles
+/// are marked in nnID in ID order Only the set of particles in newlinksIndex
+/// are searched for other particles meeting this criteria. Note that the tree
+/// search is set up such that if the marker value (here given by pfof) greater
+/// than the particle's current id marker or the particle's current marker is 0,
+/// the particle's nnID value is set to the marker value.
 inline void SearchForNewLinks(Int_t nsubset, KDTree *tree, Particle *Partsubset,
                               Int_t *pfof, FOFcompfunc &fofcmp, Double_t *param,
                               Int_t newlinks, Int_t *newlinksIndex,
@@ -5023,7 +5026,7 @@ inline void LinkUntagged(Particle *Partsubset, Int_t numgroups, Int_t *pfof,
 /// This routine merges candidate substructre groups together so long as the
 /// groups share enough links compared to the groups original size given in
 /// oldnumingroup (which is generally the group size prior to the expanded
-///search).
+/// search).
 inline Int_t MergeGroups(Options &opt, Particle *Partsubset, Int_t numgroups,
                          Int_t *pfof, Int_t *numingroup, Int_t *oldnumingroup,
                          Int_t **pglist, Int_t *numgrouplinksIndex,
@@ -5082,9 +5085,10 @@ inline Int_t MergeGroups(Options &opt, Particle *Partsubset, Int_t numgroups,
 }
 
 /// This routine merges candidate halo groups together during the merger check
-/// so long as the groups share enough links compared to the groups original size
-/// given in oldnumingroup or one group is significantly larger than the other
-/// (in which case the secondary object is probably a substructure of the other)
+/// so long as the groups share enough links compared to the groups original
+/// size given in oldnumingroup or one group is significantly larger than the
+/// other (in which case the secondary object is probably a substructure of the
+/// other)
 inline Int_t
 MergeHaloGroups(Options &opt, Particle *Partsubset, Int_t numgroups,
                 Int_t *pfof, Int_t *numingroup, Int_t *oldnumingroup,
