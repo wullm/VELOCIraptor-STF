@@ -21,69 +21,54 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA 02111-1307  USA
-#
 
 # VARIABLES
 language: cpp
 sudo: false
 
 package_list:
-  - &package_codelint
-    - clang-format-3.8
   - &package1
+    - clang-format-3.8
     - g++-5
     - libhdf5-dev
     - hdf5-tools 
     - libgsl0-dev
   - &package2
+    - clang-format-3.8
     - g++-5
     - libhdf5-dev
     - hdf5-tools
     - libgsl0-dev
     - libopenmpi-dev
   - &package3
+    - clang-format-3.8
     - g++-5
     - libhdf5-dev
     - hdf5-tools
     - libgsl0-dev
     - libopenmpi-dev
   - &package4
+    - clang-format-3.8
     - g++-6
     - libhdf5-dev
     - hdf5-tools
     - libgsl0-dev
     - libopenmpi-dev
   - &package5
+    - clang-format-3.8
     - g++-7
     - libhdf5-dev
     - hdf5-tools
     - libgsl0-dev
     - libopenmpi-dev
 
-scripts_list:
-  - &scripts_compile
-    - .travis/install.sh
-    - .travis/test.sh
-  - &scripts_codelint
-    - .travis/test_codelint.sh
-
 build_list:
-  - &codelint
-    compiler: gcc
-    addons:
-     apt:
-      sources: ubuntu-toolchain-r-test
-      packages: *codelint
-    env: TEST_BRANCH=feature/format
-    script: &scripts_codelint
-
   - &build1
     compiler: gcc
     addons:
      apt:
       sources: ubuntu-toolchain-r-test
       packages: *package1
-    script: &scripts_compile
     env: COMPILER=g++-5
   - &build2
     compiler: gcc
@@ -91,7 +76,6 @@ build_list:
      apt:
       sources: ubuntu-toolchain-r-test
       packages: *package2
-    script: &scripts_compile
     env: COMPILER=g++-5
   - &build3
     compiler: gcc
@@ -99,7 +83,6 @@ build_list:
      apt:
       sources: ubuntu-toolchain-r-test
       packages: *package2
-    script: &scripts_compile
     env: COMPILER=g++-5 USEGAS=1 USESTARS=1
   - &build4
     compiler: gcc
@@ -107,8 +90,6 @@ build_list:
      apt:
       sources: ubuntu-toolchain-r-test
       packages: *package3
-    script:
-    script: &scripts_compile
     env: COMPILER=g++-5 USESWIFT=1
   - &build5
     compiler: gcc
@@ -116,8 +97,6 @@ build_list:
      apt:
       sources: ubuntu-toolchain-r-test
       packages: *package4
-    script:
-    script: &scripts_compile
     env: COMPILER=g++-6
   - &build6
     compiler: gcc
@@ -125,8 +104,6 @@ build_list:
      apt:
       sources: ubuntu-toolchain-r-test
       packages: *package5
-    script:
-    script: &scripts_compile
     env: COMPILER=g++-7
 
 # We try with both GNU and LLVM
@@ -135,7 +112,7 @@ build_list:
 matrix:
   include:
     - stage: Code Lint
-      <<: *package_codelint
+      script: ./.travis/test_codelint.sh
     - stage: Install
       <<: *build1
     - stage: Install
@@ -148,4 +125,6 @@ matrix:
       <<: *build5
     - stage: Install
       <<: *build6
-    # Scenario driven test steps can be added here
+
+script:
+  - source .travis/install.sh
