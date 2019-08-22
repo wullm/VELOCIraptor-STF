@@ -10,16 +10,19 @@ AlignEscapedNewlines: Left
 AlignOperands: true
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: false
-AllowShortIfStatementsOnASingleLine: false
-# AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: true
+AllowShortBlocksOnASingleLine: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
 # BinPackArguments: false
 # BinPackParameters: false
-# ColumnLimit:     120
-# ContinuationIndentWidth: 4
+ColumnLimit:     120
+ContinuationIndentWidth: 4
 # DerivePointerAlignment: false
 # ForEachMacros:
 # IndentCaseLabels: true
-# IndentWidth: 4
+IndentWidth: 4
 # IndentPPDirectives: AfterHash # Not available in clang 5
 # IndentWrappedFunctionNames: true
 # KeepEmptyLinesAtTheStartOfBlocks: false
@@ -28,9 +31,22 @@ AllowShortIfStatementsOnASingleLine: false
 # SortIncludes:    false
 # SpaceBeforeParens: Never
 # SpacesInContainerLiterals: false
-# TabWidth:        4
-# UseTab: Never
+TabWidth:        4
+UseTab: Never
 
+BraceWrapping:
+  AfterClass:      true
+  AfterControlStatement: true
+  AfterEnum:       true
+  AfterFunction:   true
+  AfterNamespace:  true
+  AfterObjCDeclaration: true
+  AfterStruct:     true
+  AfterUnion:      true
+  BeforeCatch:     true
+  BeforeElse:      true
+  IndentBraces:    false
+BreakBeforeBraces: Custom
 # Options not function with clang-format 3.8.0-ubuntu4 (tags/RELEASE_380/final)
 #BreakConstructorInitializers: AfterColon
 #AlignEscapedNewlines: Left
