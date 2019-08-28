@@ -9,11 +9,11 @@
 
 ///\name Include for NBodyFramework library.
 //@{
-///nbody code
+/// nbody code
 #include <NBody.h>
-///Math code
+/// Math code
 #include <NBodyMath.h>
-///Binary KD-Tree code
+/// Binary KD-Tree code
 #include <KDTree.h>
 //@}
 
@@ -30,16 +30,18 @@ using namespace NBody;
 #define ompfofsearchnum 2000000
 //@}
 
-///structure to store relevant info for searching openmp domains
-struct OMP_Domain {
-    Int_t ncount, noffset, numgroups;
-    Double_t bnd[3][2];
+/// structure to store relevant info for searching openmp domains
+struct OMP_Domain
+{
+    Int_t       ncount, noffset, numgroups;
+    Double_t    bnd[3][2];
     vector<int> neighbour;
 };
 
-///structure relevant for exchanging particle information between openmp domains
-struct OMP_ImportInfo {
+/// structure relevant for exchanging particle information between openmp domains
+struct OMP_ImportInfo
+{
     Int_t index, pfof;
-    int task;
+    int   task;
 };
 #endif

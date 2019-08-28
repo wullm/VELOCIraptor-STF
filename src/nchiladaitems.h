@@ -14,21 +14,21 @@
 
 #ifdef USEXDR
 
+#include <assert.h>
 #include <dirent.h>
 #include <errno.h>
-#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
-#include <assert.h>
 
 #include "endianutils.h"
+#include "tipsy_structs.h"
 #include <rpc/types.h>
 #include <rpc/xdr.h>
-#include "tipsy_structs.h"
 
 #define NCHILADAMAXDIM 3
 
-///number of particle types
+/// number of particle types
 #define NNCHILADATYPE 4
 ///\name define Nchilada particle types
 //@{
@@ -40,8 +40,9 @@
 
 ///\name Nchilada data structures
 //@{
-///header structure that is in every nchilada file
-struct nchilada_dump {
+/// header structure that is in every nchilada file
+struct nchilada_dump
+{
     int    magic;
     double time;
     int    iHighWord;
@@ -49,8 +50,9 @@ struct nchilada_dump {
     int    ndim;
     int    code;
 };
-//an enumeration that associates a code value with a data type
-enum NCDataTypeCode {
+// an enumeration that associates a code value with a data type
+enum NCDataTypeCode
+{
     int8 = 1,
     uint8,
     int16,
@@ -63,31 +65,30 @@ enum NCDataTypeCode {
     float64
 };
 
-
 //@}
 
 ///\name XDR read routines, assist in reading tipsy-nchilada data
 //@{
-///read the tipsy header, and if it fails returns 0
-int xdr_header(XDR *pxdrs,struct tipsy_dump *ph);
+/// read the tipsy header, and if it fails returns 0
+int xdr_header(XDR *pxdrs, struct tipsy_dump *ph);
 
-///read the gas particle, and if it fails returns 0
-int xdr_gas(XDR *pxdrs,struct tipsy_gas_particle *ph);
+/// read the gas particle, and if it fails returns 0
+int xdr_gas(XDR *pxdrs, struct tipsy_gas_particle *ph);
 
-///read the dark particle, and if it fails returns 0
-int xdr_dark(XDR *pxdrs,struct tipsy_dark_particle *ph);
+/// read the dark particle, and if it fails returns 0
+int xdr_dark(XDR *pxdrs, struct tipsy_dark_particle *ph);
 
-///read the star particle, and if it fails returns 0
-int xdr_star(XDR *pxdrs,struct tipsy_star_particle *ph);
+/// read the star particle, and if it fails returns 0
+int xdr_star(XDR *pxdrs, struct tipsy_star_particle *ph);
 
-///reads nchilada header, and if fails returns 0
-int xdr_NCHeader(XDR *pxdrs,struct nchilada_dump *ph);
+/// reads nchilada header, and if fails returns 0
+int xdr_NCHeader(XDR *pxdrs, struct nchilada_dump *ph);
 
-///opens all the associated files for nchilada data format
+/// opens all the associated files for nchilada data format
 void xdr_NC_Open(XDR *xdrs, enum xdr_op op, FILE **fp, char *achInFile, long lstart);
 
-///returns the data format pointed to by the XDR which can be then
-///used by the \ref NCDataTypeCode to set the data type
+/// returns the data format pointed to by the XDR which can be then
+/// used by the \ref NCDataTypeCode to set the data type
 int xdr_type(XDR *pxdrs, void *data, int type, int num);
 
 //@}
@@ -98,68 +99,49 @@ int xdr_type(XDR *pxdrs, void *data, int type, int num);
  of this function are provided for many common types, including
 */
 //@{
-inline bool_t xdr_template(XDR* xdrs, unsigned char* val) {
-    return xdr_u_char(xdrs, val);
-}
-inline bool_t xdr_template(XDR* xdrs, char* val) {
-    return xdr_char(xdrs, val);
-}
-inline bool_t xdr_template(XDR* xdrs, unsigned short* val) {
-    return xdr_u_short(xdrs, val);
-}
-inline bool_t xdr_template(XDR* xdrs, short* val) {
-    return xdr_short(xdrs, val);
-}
-inline bool_t xdr_template(XDR* xdrs, unsigned int* val) {
-    return xdr_u_int(xdrs, val);
-}
-inline bool_t xdr_template(XDR* xdrs, int* val) {
-    return xdr_int(xdrs, val);
-}
-inline bool_t xdr_template(XDR* xdrs, unsigned long* val) {
-    return xdr_u_long(xdrs, (unsigned long *)val);
-}
-inline bool_t xdr_template(XDR* xdrs, long * val) {
-    return xdr_long(xdrs, (long *)val);
-}
-inline bool_t xdr_template(XDR* xdrs, float* val) {
-    return xdr_float(xdrs, val);
-}
-inline bool_t xdr_template(XDR* xdrs, double* val) {
-    return xdr_double(xdrs, val);
-}
+inline bool_t xdr_template(XDR *xdrs, unsigned char *val) { return xdr_u_char(xdrs, val); }
+inline bool_t xdr_template(XDR *xdrs, char *val) { return xdr_char(xdrs, val); }
+inline bool_t xdr_template(XDR *xdrs, unsigned short *val) { return xdr_u_short(xdrs, val); }
+inline bool_t xdr_template(XDR *xdrs, short *val) { return xdr_short(xdrs, val); }
+inline bool_t xdr_template(XDR *xdrs, unsigned int *val) { return xdr_u_int(xdrs, val); }
+inline bool_t xdr_template(XDR *xdrs, int *val) { return xdr_int(xdrs, val); }
+inline bool_t xdr_template(XDR *xdrs, unsigned long *val) { return xdr_u_long(xdrs, (unsigned long *)val); }
+inline bool_t xdr_template(XDR *xdrs, long *val) { return xdr_long(xdrs, (long *)val); }
+inline bool_t xdr_template(XDR *xdrs, float *val) { return xdr_float(xdrs, val); }
+inline bool_t xdr_template(XDR *xdrs, double *val) { return xdr_double(xdrs, val); }
 
-inline bool_t xdr_template(XDR* xdrs, struct nchilada_dump* h) {
-    return (xdr_template(xdrs, &(h->magic))
-            && xdr_template(xdrs, &(h->time))
-            && xdr_template(xdrs, &(h->nbodies))
-            && xdr_template(xdrs, &(h->ndim))
-            && xdr_template(xdrs, reinterpret_cast<enum_t *>(&(h->code))));
+inline bool_t xdr_template(XDR *xdrs, struct nchilada_dump *h)
+{
+    return (xdr_template(xdrs, &(h->magic)) && xdr_template(xdrs, &(h->time)) && xdr_template(xdrs, &(h->nbodies)) &&
+            xdr_template(xdrs, &(h->ndim)) && xdr_template(xdrs, reinterpret_cast<enum_t *>(&(h->code))));
 }
 //@}
-
 
 /*! Allocate for and read in a field from an XDR stream.  You need to have
  read the header already.  The min/max pair are put at the end of the array.
  */
-template <typename T> inline T* readField(XDR* xdrs, const u_int64_t N, const u_int64_t startParticle = 0) {
-    T* data = new T[N + 2];
-    //put min/max at the end
-    if(!xdr_template(xdrs, data + N) || !xdr_template(xdrs, data + N + 1)) {
+template <typename T> inline T *readField(XDR *xdrs, const u_int64_t N, const u_int64_t startParticle = 0)
+{
+    T *data = new T[N + 2];
+    // put min/max at the end
+    if (!xdr_template(xdrs, data + N) || !xdr_template(xdrs, data + N + 1))
+    {
         delete[] data;
         return 0;
     }
-    if(data[N] == data[N + 1]) {
-        //if all elements are the same, just copy the value into the array
-        for(u_int64_t i = 0; i < N; ++i)
-            data[i] = data[N];
+    if (data[N] == data[N + 1])
+    {
+        // if all elements are the same, just copy the value into the array
+        for (u_int64_t i = 0; i < N; ++i) data[i] = data[N];
     }
-    else {
+    else
+    {
         ///\todo correct the offseting need for very large arrays
         /*
         ///add the offset from the nchilada header
         off_t offset = sizeof(struct nchilada_dump)
-            + (startParticle + 2) * TypeHandling::Type2Dimensions<T>::dimensions * mySizeof(TypeHandling::Type2Code<T>::code);
+            + (startParticle + 2) * TypeHandling::Type2Dimensions<T>::dimensions *
+mySizeof(TypeHandling::Type2Code<T>::code);
 // XXX NASTY kludge to get around 4 byte limit of xdr functions
 #define __BILLION 1000000000
         fseek((FILE *)xdrs->x_private, 0, 0);
@@ -173,14 +155,15 @@ template <typename T> inline T* readField(XDR* xdrs, const u_int64_t N, const u_
             return 0;
         }
 #if 0
-        if(!xdr_setpos(xdrs, sizeof(struct nchilada_dump) + (startParticle + 2) * TypeHandling::Type2Dimensions<T>::dimensions * mySizeof(TypeHandling::Type2Code<T>::code))) {
-            delete[] data;
-            return 0;
+        if(!xdr_setpos(xdrs, sizeof(struct nchilada_dump) + (startParticle + 2) *
+TypeHandling::Type2Dimensions<T>::dimensions * mySizeof(TypeHandling::Type2Code<T>::code))) { delete[] data; return 0;
         }
 #endif
         */
-        for(u_int64_t i = 0; i < N; ++i) {
-            if(!xdr_template(xdrs, data + i)) {
+        for (u_int64_t i = 0; i < N; ++i)
+        {
+            if (!xdr_template(xdrs, data + i))
+            {
                 delete[] data;
                 return 0;
             }
@@ -188,25 +171,30 @@ template <typename T> inline T* readField(XDR* xdrs, const u_int64_t N, const u_
     }
     return data;
 }
-template <typename T> inline T* readField3D(XDR* xdrs, const u_int64_t N, const u_int64_t startParticle = 0) {
-    T* data = new T[3*(N + 2)];
-    //put min/max at the end
+template <typename T> inline T *readField3D(XDR *xdrs, const u_int64_t N, const u_int64_t startParticle = 0)
+{
+    T *data = new T[3 * (N + 2)];
+    // put min/max at the end
     Int_t ioffset;
-    for (int idim=0;idim<3;idim++) {
-        ioffset=idim*(N+2);
-        if(!xdr_template(xdrs, data + N+ioffset) || !xdr_template(xdrs, data + N + 1+ioffset)) {
+    for (int idim = 0; idim < 3; idim++)
+    {
+        ioffset = idim * (N + 2);
+        if (!xdr_template(xdrs, data + N + ioffset) || !xdr_template(xdrs, data + N + 1 + ioffset))
+        {
             delete[] data;
             return 0;
         }
-        if(data[N+ioffset] == data[N + 1+ioffset]) {
-            //if all elements are the same, just copy the value into the array
-            for(u_int64_t i = 0; i < N; ++i)
-                data[i+ioffset] = data[N+ioffset];
+        if (data[N + ioffset] == data[N + 1 + ioffset])
+        {
+            // if all elements are the same, just copy the value into the array
+            for (u_int64_t i = 0; i < N; ++i) data[i + ioffset] = data[N + ioffset];
         }
-        else {
+        else
+        {
             /*
             off_t offset = FieldHeader::sizeBytes
-                + (startParticle + 2) * TypeHandling::Type2Dimensions<T>::dimensions * mySizeof(TypeHandling::Type2Code<T>::code);
+                + (startParticle + 2) * TypeHandling::Type2Dimensions<T>::dimensions *
+mySizeof(TypeHandling::Type2Code<T>::code);
 // XXX NASTY kludge to get around 4 byte limit of xdr functions
 #define __BILLION 1000000000
             fseek((FILE *)xdrs->x_private, 0, 0);
@@ -220,14 +208,15 @@ template <typename T> inline T* readField3D(XDR* xdrs, const u_int64_t N, const 
                 return 0;
             }
 #if 0
-            if(!xdr_setpos(xdrs, FieldHeader::sizeBytes + (startParticle + 2) * TypeHandling::Type2Dimensions<T>::dimensions * mySizeof(TypeHandling::Type2Code<T>::code))) {
-                delete[] data;
-                return 0;
+            if(!xdr_setpos(xdrs, FieldHeader::sizeBytes + (startParticle + 2) *
+TypeHandling::Type2Dimensions<T>::dimensions * mySizeof(TypeHandling::Type2Code<T>::code))) { delete[] data; return 0;
             }
 #endif
             */
-            for(u_int64_t i = 0; i < N; ++i) {
-                if(!xdr_template(xdrs, data + i+ioffset)) {
+            for (u_int64_t i = 0; i < N; ++i)
+            {
+                if (!xdr_template(xdrs, data + i + ioffset))
+                {
                     delete[] data;
                     return 0;
                 }
@@ -238,47 +227,41 @@ template <typename T> inline T* readField3D(XDR* xdrs, const u_int64_t N, const 
 }
 
 template <typename T>
-inline void* readField(XDR* xdrs, const unsigned int dimensions, const u_int64_t N, const u_int64_t startParticle = 0) {
-    if(dimensions == 3) {
-        return readField3D<T>(xdrs, N, startParticle+N);
-    }
-    else return readField<T>(xdrs, N, startParticle);
+inline void *readField(XDR *xdrs, const unsigned int dimensions, const u_int64_t N, const u_int64_t startParticle = 0)
+{
+    if (dimensions == 3) { return readField3D<T>(xdrs, N, startParticle + N); }
+    else
+        return readField<T>(xdrs, N, startParticle);
 }
 
 /** Given the type code in the header, reads in the correct type of data.
  */
-inline void* readField(const struct nchilada_dump& fh, XDR* xdrs, u_int64_t numParticles = 0, const u_int64_t startParticle = 0) {
-    if(fh.ndim != 1 && fh.ndim != 3) return 0;
-    if(numParticles == 0) numParticles = fh.nbodies;
-    switch(fh.code) {
-        case int8:
-            return readField<char>(xdrs, fh.ndim, numParticles, startParticle);
-        case uint8:
-            return readField<unsigned char>(xdrs, fh.ndim, numParticles, startParticle);
-        case int16:
-            return readField<short>(xdrs, fh.ndim, numParticles, startParticle);
-        case uint16:
-            return readField<unsigned short>(xdrs, fh.ndim, numParticles, startParticle);
-        case int32:
-            return readField<int>(xdrs, fh.ndim, numParticles, startParticle);
-        case uint32:
-            return readField<unsigned int>(xdrs, fh.ndim, numParticles, startParticle);
-        case int64:
-            return readField<int64_t>(xdrs, fh.ndim, numParticles, startParticle);
-        case uint64:
-            return readField<u_int64_t>(xdrs, fh.ndim, numParticles, startParticle);
-        case float32:
-            return readField<float>(xdrs, fh.ndim, numParticles, startParticle);
-        case float64:
-            return readField<double>(xdrs, fh.ndim, numParticles, startParticle);
-        default:
-            return 0;
+inline void *readField(const struct nchilada_dump &fh, XDR *xdrs, u_int64_t numParticles = 0,
+                       const u_int64_t startParticle = 0)
+{
+    if (fh.ndim != 1 && fh.ndim != 3) return 0;
+    if (numParticles == 0) numParticles = fh.nbodies;
+    switch (fh.code)
+    {
+    case int8: return readField<char>(xdrs, fh.ndim, numParticles, startParticle);
+    case uint8: return readField<unsigned char>(xdrs, fh.ndim, numParticles, startParticle);
+    case int16: return readField<short>(xdrs, fh.ndim, numParticles, startParticle);
+    case uint16: return readField<unsigned short>(xdrs, fh.ndim, numParticles, startParticle);
+    case int32: return readField<int>(xdrs, fh.ndim, numParticles, startParticle);
+    case uint32: return readField<unsigned int>(xdrs, fh.ndim, numParticles, startParticle);
+    case int64: return readField<int64_t>(xdrs, fh.ndim, numParticles, startParticle);
+    case uint64: return readField<u_int64_t>(xdrs, fh.ndim, numParticles, startParticle);
+    case float32: return readField<float>(xdrs, fh.ndim, numParticles, startParticle);
+    case float64: return readField<double>(xdrs, fh.ndim, numParticles, startParticle);
+    default: return 0;
     }
 }
 
-///read a particular data field from a nchilada file
-void *readFieldData(FILE *&infile, nchilada_dump &fh, unsigned int dim, u_int64_t numParticles, u_int64_t startParticle);
-void *readFieldData(const string filename, nchilada_dump &fh, unsigned int dim, u_int64_t numParticles, u_int64_t startParticle);
+/// read a particular data field from a nchilada file
+void *readFieldData(FILE *&infile, nchilada_dump &fh, unsigned int dim, u_int64_t numParticles,
+                    u_int64_t startParticle);
+void *readFieldData(const string filename, nchilada_dump &fh, unsigned int dim, u_int64_t numParticles,
+                    u_int64_t startParticle);
 
 /*!\name XDRException handler class
  *
@@ -360,7 +343,8 @@ public:
 
     FieldHeader() : magic(MagicNumber) { }
 
-    FieldHeader(const TypeHandling::TypedArray& arr) : magic(MagicNumber), numParticles(arr.length), dimensions(arr.ndim), code(arr.code) { }
+    FieldHeader(const TypeHandling::TypedArray& arr) : magic(MagicNumber), numParticles(arr.length),
+dimensions(arr.ndim), code(arr.code) { }
 
     /// Output operator, used for formatted display
     friend std::ostream& operator<< (std::ostream& os, const FieldHeader& h) {
@@ -381,35 +365,36 @@ inline bool_t xdr_template(XDR* xdrs, FieldHeader* h) {
 */
 //@}
 
-
-///This structures stores the strings defining the names of the data
-struct Nchilada_Part_Names {
-    //define the strings associated with the types of structures contained in the nchilada file.
+/// This structures stores the strings defining the names of the data
+struct Nchilada_Part_Names
+{
+    // define the strings associated with the types of structures contained in the nchilada file.
     string Header_name;
     string GASpart_name;
     string DMpart_name;
     string STARpart_name;
     string BHpart_name;
     string part_names[NNCHILADATYPE];
-    string names[NNCHILADATYPE+1];
+    string names[NNCHILADATYPE + 1];
 
-    ///constructor
-    Nchilada_Part_Names(){
-        Header_name=string("descrption.xml");
-        GASpart_name=string("gas/");
-        DMpart_name=string("dark/");
-        STARpart_name=string("star/");
-        BHpart_name=string("star/");
-        part_names[0]=GASpart_name;
-        part_names[1]=DMpart_name;
-        part_names[2]=STARpart_name;
-        part_names[3]=BHpart_name;
+    /// constructor
+    Nchilada_Part_Names()
+    {
+        Header_name   = string("descrption.xml");
+        GASpart_name  = string("gas/");
+        DMpart_name   = string("dark/");
+        STARpart_name = string("star/");
+        BHpart_name   = string("star/");
+        part_names[0] = GASpart_name;
+        part_names[1] = DMpart_name;
+        part_names[2] = STARpart_name;
+        part_names[3] = BHpart_name;
 
-        names[0]=Header_name;
-        names[1]=GASpart_name;
-        names[2]=DMpart_name;
-        names[3]=STARpart_name;
-        names[4]=BHpart_name;
+        names[0] = Header_name;
+        names[1] = GASpart_name;
+        names[2] = DMpart_name;
+        names[3] = STARpart_name;
+        names[4] = BHpart_name;
     }
 };
 

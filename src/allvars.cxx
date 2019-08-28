@@ -5,6 +5,5 @@
 #include "allvars.h"
 
 //-- Structures and external variables
-///external pointer to keep track of structure levels and parent
+/// external pointer to keep track of structure levels and parent
 StrucLevelData *psldata;
-

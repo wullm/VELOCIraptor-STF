@@ -42,23 +42,25 @@ http://www.gnu.org/copyleft/gpl.html
 \section Description Description
 
 VELOCIraptor/STF is a massively parallel code for finding substructure in halos from N-body simulations.
-It was designed to identify tidal debris, an impossible task for most other structures finders since most are designed to find overdensities in configuration space.
-Tidal debris and other forms of substructure within haloes/galaxies are identified using a 6D phase-space algorithm.
-Structures are also analysed and bulk properties recorded in output files along with all particles that belong to structures.
+It was designed to identify tidal debris, an impossible task for most other structures finders since most are designed
+to find overdensities in configuration space. Tidal debris and other forms of substructure within haloes/galaxies are
+identified using a 6D phase-space algorithm. Structures are also analysed and bulk properties recorded in output files
+along with all particles that belong to structures.
 
 This program runs by reading an input N-body snapshot such as a tipsy/gadget/HDF5 file and finds (sub)structures,
 outputing files containing bulk properties and particles IDs belonging to (sub)structures. \n
 It is primarily designed to use the VELOCIraptor/STF algorithm (which generates an outlier subset) but can also
 use the 3DFOF and 6DFOF algorithm (effectively finds regions of high physical or phase-space density).\n
 The program can be altered to read different formats by altering \ref proto.h, \ref io.cxx, specifically \ref ReadData
-and providing the appropriate io.cxx file like \ref gadgetio.cxx. The overall flow of the program is outlined in \ref main.cxx
-and a brief description of the searches available is in \ref searching
+and providing the appropriate io.cxx file like \ref gadgetio.cxx. The overall flow of the program is outlined in \ref
+main.cxx and a brief description of the searches available is in \ref searching
 
 A full account of the numerical algorithms employed by the code is given
 in the code paper, <a href="http://adsabs.harvard.edu/abs/2011MNRAS.418..320E">Elahi et al. (2011)</a>
 and detailed instructions for usage of the code are given in the included code documentation.
 For a discussion of tidal debris in cosmological simulations and a comparison of the few codes capable in principle
-of identifying physically diffuse tidal debris see <a href="http://adsabs.harvard.edu/abs/2013MNRAS.433.1537E">Elahi et al. (2013)</a>.
+of identifying physically diffuse tidal debris see <a href="http://adsabs.harvard.edu/abs/2013MNRAS.433.1537E">Elahi et
+al. (2013)</a>.
 
 This html-document serves as a cross-referenced documentation of the
 source code itself - in fact, using the doxygen tool, the html-pages
@@ -69,15 +71,19 @@ a short guide to compile-time options of the code.
 
 \section relatecodes Related Codes
 
-There are several related codes that come with VELOCIraptor. These are \b TreeFrog (formerly halomergertree), and \b OrbWeaver (in development). These codes are designed to process a set of halo catalogs
-produced by VELOCIraptor and build temporal halo merger trees and reconstruct orbits of satellites around haloes. A description of the codes can be found at \n
-- \b TreeFrog - A code designed to produce halo merger trees or cross correlate two different halo (structure) catalogues (<a href="../../analysis/treefrog/doc/html/index.html">TreeFrog</a>).
-- \b OrbWeaver - A code designed to produce halo merger trees or cross correlate two different halo (structure) catalogues (\ref OrbWeaver).
+There are several related codes that come with VELOCIraptor. These are \b TreeFrog (formerly halomergertree), and \b
+OrbWeaver (in development). These codes are designed to process a set of halo catalogs produced by VELOCIraptor and
+build temporal halo merger trees and reconstruct orbits of satellites around haloes. A description of the codes can be
+found at \n
+- \b TreeFrog - A code designed to produce halo merger trees or cross correlate two different halo (structure)
+catalogues (<a href="../../analysis/treefrog/doc/html/index.html">TreeFrog</a>).
+- \b OrbWeaver - A code designed to produce halo merger trees or cross correlate two different halo (structure)
+catalogues (\ref OrbWeaver).
 
 \section prelim Getting started
 
-    Getting started is as simple as copying Makefile.config.template to Makefile.config, editing the Makefile.config file (see \ref STF-makeflags)
-    typing make and then running the code (see \ref howtorun).
+    Getting started is as simple as copying Makefile.config.template to Makefile.config, editing the Makefile.config
+file (see \ref STF-makeflags) typing make and then running the code (see \ref howtorun).
 
 \section install Compilation
 
@@ -171,16 +177,14 @@ mpi domains that are then searched for substructures is in the works.
 
 \section param Parameters
 The code has several parameters that can be adjusted through a configuration file. The following commands
-are accepted (more info can be found in \ref Options struct and \ref ui.cxx for user interface or the sample configuration file
-in the examples directory). \n \n
-    \subsection configfile Preferred interface: Use a configuration file
-    for details of configuration options see \ref configopt
-    \arg \b \e -i < input file > \ref Options.fname \n
-    \arg \b \e -s < number of files per snapshot for gadget input, 0 for tipsy [default] > \ref Options.num_files \n
-    \arg \b \e -Z < number of files to read in parallel (when mpi is invoked) > \ref Options.nsnapread \n
-    \arg \b \e -o < output base name (this can be overwritten by a configuration option in the config file. Suggestion would be to not use this option in the config file, use explicit command> \ref Options.outname \n
-    \arg \b \e -C < Config file name (see \ref configopt for discussion of what is contained in this ascii parameter file) > \ref Options.pname \n
-    \n
+are accepted (more info can be found in \ref Options struct and \ref ui.cxx for user interface or the sample
+configuration file in the examples directory). \n \n \subsection configfile Preferred interface: Use a configuration
+file for details of configuration options see \ref configopt \arg \b \e -i < input file > \ref Options.fname \n \arg \b
+\e -s < number of files per snapshot for gadget input, 0 for tipsy [default] > \ref Options.num_files \n \arg \b \e -Z <
+number of files to read in parallel (when mpi is invoked) > \ref Options.nsnapread \n \arg \b \e -o < output base name
+(this can be overwritten by a configuration option in the config file. Suggestion would be to not use this option in the
+config file, use explicit command> \ref Options.outname \n \arg \b \e -C < Config file name (see \ref configopt for
+discussion of what is contained in this ascii parameter file) > \ref Options.pname \n \n
 
 \section searching Altering the search for substructures
 
@@ -188,28 +192,29 @@ The algorithm searches for substructures in a specific fashion but if the user w
 this can be done by altering \ref search.cxx (along with \ref proto.h, \ref allvars.h and \ref fofalgo.h as necessary).
 However, before altering the search it is useful to understand what searches are available.
 
-First, note that implemented in the code are a variety of FOF criteria. Second, also implemented is an interative search.
-Given the added complexity of the iterative search, an aside is necessary. First, the iterative search finds candidate objects
-using the criteria passed, then <b><i> relaxes the criteria</i></b>, thus if an iterative search is used,
-<b><em>one should use it with more restrictive fof criteria than one would normally do</em></b>. The iterative search
-can correct for a bias present in large subhaloes <b><i>AND</i></b> also find extended portions (typically unbound portions)
-of a substructure. As candidate tidal debris substructure can be split into several "groups" using the smaller
-search window and have links when using the more relaxed criteria. If enough connections are present between
+First, note that implemented in the code are a variety of FOF criteria. Second, also implemented is an interative
+search. Given the added complexity of the iterative search, an aside is necessary. First, the iterative search finds
+candidate objects using the criteria passed, then <b><i> relaxes the criteria</i></b>, thus if an iterative search is
+used, <b><em>one should use it with more restrictive fof criteria than one would normally do</em></b>. The iterative
+search can correct for a bias present in large subhaloes <b><i>AND</i></b> also find extended portions (typically
+unbound portions) of a substructure. As candidate tidal debris substructure can be split into several "groups" using the
+smaller search window and have links when using the more relaxed criteria. If enough connections are present between
 candidate substructures they are merged. The iterative parameters indicating how much the initial parameters
 are increased by are listed in \ref Options
 
 \section unbinding Unbinding when searching for tidal debris
-As the algorithm is designed to identify dynamically distinct but not necessarily self-bound structures residing in a background
-(that is roughly in equilibrium), the code allows the user to specific the ratio between kinetic and potential energy of particles
-AND whether particles are removed from the background potential when unbinding. Typically codes of this nature, i.e. (sub)halo finders,
-<b><em>REQUIRE</em></b> and unbinding step to function properly. This is <b>not</b> the case here. Tests show that requiring the ratio
-|Epot|/Ekin >0.2 does not throw up too many suprious objects. One can be even more relaxed (and use <em>slightly</em> cpu resources) if
-one does not require particles that do not meet the energy criterion to be ignored when estimating the potential. The idea would be for
-extended tidal debris with a very small loosely unbound core, the sea of tidal debris particles contributes negligibly to the potential
+As the algorithm is designed to identify dynamically distinct but not necessarily self-bound structures residing in a
+background (that is roughly in equilibrium), the code allows the user to specific the ratio between kinetic and
+potential energy of particles AND whether particles are removed from the background potential when unbinding. Typically
+codes of this nature, i.e. (sub)halo finders, <b><em>REQUIRE</em></b> and unbinding step to function properly. This is
+<b>not</b> the case here. Tests show that requiring the ratio |Epot|/Ekin >0.2 does not throw up too many suprious
+objects. One can be even more relaxed (and use <em>slightly</em> cpu resources) if one does not require particles that
+do not meet the energy criterion to be ignored when estimating the potential. The idea would be for extended tidal
+debris with a very small loosely unbound core, the sea of tidal debris particles contributes negligibly to the potential
 and so updating this is not cost effective.
 
-But for the default user interested in only completely self-bound objects, a kinetic ratio of 1.0 and ignore the bacground potential are
-the options to use.
+But for the default user interested in only completely self-bound objects, a kinetic ratio of 1.0 and ignore the
+bacground potential are the options to use.
 
 \section outputs Outputs
 
@@ -220,13 +225,13 @@ the options to use.
     This output can be in ASCII, binary, HDF, and ADIOS
 
     \subsection cat Catalog_ files (.catalog_groups, .catalog_particles, .catalog_parttypes)
-    Contains particle information to extract read particles from an input file or for tracking (ie: producing halo merger trees).
-    The catalog_groups contains the sizes of groups and the offsets to read the associated .catalog_particles (.catalog_particles.unbound)
-    .catalog_parttypes (.catalog_parttypes.unbound) which just listed the IDS and Types of particles belonging to groups.
-    For examples of how to read this information, see the python tools included. When combined with raw particle data can
-    be used for extra processing (such as calculating properties/profiles not calculated by default by VELOCIraptor).
-    These files are also necessary if one wishes to construct "halo merger trees" or cross match haloes between catalogues.
-    This output can be in ASCII, binary, HDF, and ADIOS
+    Contains particle information to extract read particles from an input file or for tracking (ie: producing halo
+merger trees). The catalog_groups contains the sizes of groups and the offsets to read the associated .catalog_particles
+(.catalog_particles.unbound) .catalog_parttypes (.catalog_parttypes.unbound) which just listed the IDS and Types of
+particles belonging to groups. For examples of how to read this information, see the python tools included. When
+combined with raw particle data can be used for extra processing (such as calculating properties/profiles not calculated
+by default by VELOCIraptor). These files are also necessary if one wishes to construct "halo merger trees" or cross
+match haloes between catalogues. This output can be in ASCII, binary, HDF, and ADIOS
 
     \subsection hierarchy Field Structure / Substructure relationships
     Contains the substructure hierarchy information, such as the hostID (which is -1 if it is a field structure)
@@ -239,8 +244,9 @@ the options to use.
     format is collected from all MPI threads and is only ASCII output.
 
     \subsection mergertrees Merger trees produced by TreeFrog
-    The <a href="../../analysis/treefrog/doc/html/index.html">TreeFrog</a> code located within the analysis directory. It is a particle correlator that can build a halo merger tree linking across
-    multiple snapshots to identify optimal progenitors.
+    The <a href="../../analysis/treefrog/doc/html/index.html">TreeFrog</a> code located within the analysis directory.
+It is a particle correlator that can build a halo merger tree linking across multiple snapshots to identify optimal
+progenitors.
 
     \subsection baryonic_analysis Analysing baryons
     Code to analyse baryonic component of haloes. Obsolete/In need of revision.
@@ -281,47 +287,63 @@ by <b>make</b>.
 
 \n
 \section secmake1 Basic operation mode of code
-- \b STRUCDEN \n Set this if you want to calculate the velocity density function used to find (sub)structures \e ONLY for particles resident in structure
-- \b HALOONLYDEN \n Set this if you want to calculate the velocity density function used to find (sub)structures \e ONLY for particles resident in structure \em USING
-\em ONLY \em PARTICLES in the parent structure. \b STRUCDEN is overridden by \b HALOONLYDEN
-(technically these are incompatible with each other as HALOONLYDEN is faster but is biased and
-the number of particles for which the local distribution function density is calculated for is even more incomplete).
-- \b ZOOMSIM \n Set this if code to naturally account for a zoom simulation with high resolution particles and low resolution particles.
+- \b STRUCDEN \n Set this if you want to calculate the velocity density function used to find (sub)structures \e ONLY
+for particles resident in structure
+- \b HALOONLYDEN \n Set this if you want to calculate the velocity density function used to find (sub)structures \e ONLY
+for particles resident in structure \em USING \em ONLY \em PARTICLES in the parent structure. \b STRUCDEN is overridden
+by \b HALOONLYDEN (technically these are incompatible with each other as HALOONLYDEN is faster but is biased and the
+number of particles for which the local distribution function density is calculated for is even more incomplete).
+- \b ZOOMSIM \n Set this if code to naturally account for a zoom simulation with high resolution particles and low
+resolution particles.
 
 \n
 \section secmake2 Computational flags
-- \b SINGLEPARTICLEPRECISION \n Set in \ref NBody::Particle contained in file \ref Particle.h reduces memory allocation and sets phase-space position of particles to floats instead of doubles
-- \b LONGIDS \n If this is set, the code assumes that particle-IDs are stored as 64-bit long integers and general ints are also now 64 long ints. This is only really needed if you want
-     to go beyond ~2 billion particles.
+- \b SINGLEPARTICLEPRECISION \n Set in \ref NBody::Particle contained in file \ref Particle.h reduces memory allocation
+and sets phase-space position of particles to floats instead of doubles
+- \b LONGIDS \n If this is set, the code assumes that particle-IDs are stored as 64-bit long integers and general ints
+are also now 64 long ints. This is only really needed if you want to go beyond ~2 billion particles.
 - \b SINGLEPRECISION, \n Code is compiled with floats instead of doubles (normal)
-- \b LARGEKDTREE, \n Code is compiled such that a single KD Tree can handle > MAXINT 2 billion particles, increasing the memory footprint. Typically
-never used as would use mpi with each mpi process having fewer than MAXINT particles to deal with and build kd trees for.
+- \b LARGEKDTREE, \n Code is compiled such that a single KD Tree can handle > MAXINT 2 billion particles, increasing the
+memory footprint. Typically never used as would use mpi with each mpi process having fewer than MAXINT particles to deal
+with and build kd trees for.
 
 \n
 \section secmake3 Particle Properties flags
-- \b NOMASS \n Mass no longer stored per particle. Instead all assumed to have the same mass. Set in \ref NBody::Particle contained in file \ref Particle.h reduces memory allocation
-- \b MASSVAL \n Sets the return value of the mass of a particle. See \ref NBody::Particle, file \ref Particle.h, \ref NBody::Particle.GetMass
-- \b USEGAS \n Particles now can also be gas particles and have extra properties. Set in \ref NBody::Particle contained in file \ref Particle.h increases memory allocation.
-- \b USESTAR \n Particles now can also be star particles and have extra properties. Set in \ref NBody::Particle contained in file \ref Particle.h increases memory allocation.
-- \b USEBH \n Particles now can also be black hole particles and have extra properties (currently none defined though this will change). Set in \ref NBody::Particle contained in file \ref Particle.h increases memory allocation.
-- \b USEBARYONS \n Particles now can also be gas/star particles and have extra properties . Set in \ref NBody::Particle contained in file \ref Particle.h increases memory allocation.
-- \b USEHYDRO \n Particles now can also be gas/star/bh particles and have extra properties. Set in \ref NBody::Particle contained in file \ref Particle.h increases memory allocation.
-- \b USECOSMICRAYS \n Particles now can also be "cosmic ray" particles and have extra properties (currently none defined though this will change). Set in \ref NBody::Particle contained in file \ref Particle.h increases memory allocation.
+- \b NOMASS \n Mass no longer stored per particle. Instead all assumed to have the same mass. Set in \ref
+NBody::Particle contained in file \ref Particle.h reduces memory allocation
+- \b MASSVAL \n Sets the return value of the mass of a particle. See \ref NBody::Particle, file \ref Particle.h, \ref
+NBody::Particle.GetMass
+- \b USEGAS \n Particles now can also be gas particles and have extra properties. Set in \ref NBody::Particle contained
+in file \ref Particle.h increases memory allocation.
+- \b USESTAR \n Particles now can also be star particles and have extra properties. Set in \ref NBody::Particle
+contained in file \ref Particle.h increases memory allocation.
+- \b USEBH \n Particles now can also be black hole particles and have extra properties (currently none defined though
+this will change). Set in \ref NBody::Particle contained in file \ref Particle.h increases memory allocation.
+- \b USEBARYONS \n Particles now can also be gas/star particles and have extra properties . Set in \ref NBody::Particle
+contained in file \ref Particle.h increases memory allocation.
+- \b USEHYDRO \n Particles now can also be gas/star/bh particles and have extra properties. Set in \ref NBody::Particle
+contained in file \ref Particle.h increases memory allocation.
+- \b USECOSMICRAYS \n Particles now can also be "cosmic ray" particles and have extra properties (currently none defined
+though this will change). Set in \ref NBody::Particle contained in file \ref Particle.h increases memory allocation.
 
 \n
 \section secmake4 Parallel
-Note that for practical reasons, the combination of OpenMP/MPI only works on correctly setup environments where one can explicitly state how many MPI threads to start on a given node. Otherwise, many systems will fill up a node with mpi threads and do so till all asked for mpi threads are active. Consequently, the openmp threads spawned by the MPI threads will compete with the MPI threads on the same node and the other OpenMP threads started by other MPI threads.
+Note that for practical reasons, the combination of OpenMP/MPI only works on correctly setup environments where one can
+explicitly state how many MPI threads to start on a given node. Otherwise, many systems will fill up a node with mpi
+threads and do so till all asked for mpi threads are active. Consequently, the openmp threads spawned by the MPI threads
+will compete with the MPI threads on the same node and the other OpenMP threads started by other MPI threads.
 - \b USEOPENMP \n Code is compiled with openmp
 - \b USEMPI \n Code is compiled with mpi. must also set the appropriate compiler
-- \b MPIREDUCEMEM \n If this flag is set, then the amount of memory allocated for MPI routines is reduced and one does not have to worry as much about the
-MPI factors \ref Options.
+- \b MPIREDUCEMEM \n If this flag is set, then the amount of memory allocated for MPI routines is reduced and one does
+not have to worry as much about the MPI factors \ref Options.
 - \b LARGEMPIDOMAIN \n If set, number of mpi threads can be > maxshort
 
 \n
 \section secmake5 IO flags when reading gadget or other formats
 - \b HDFENABLE \n HDF io enabled. VELOCIraptor has hdf formatted outputs
 - \b ADIOSENABLE \n ADIOS io enabled. VELOCIraptor has (alpha) adios formatted outputs
-- \b XDRENABLE \n nchilada input uses some XDR routines so this must be enabled and libraries present to read this input.
+- \b XDRENABLE \n nchilada input uses some XDR routines so this must be enabled and libraries present to read this
+input.
 - \b GLONGID \n Gadget binary input particle file stores 64 long ids
 - \b GDPOS \n Gadget binary input particle file stores double precision x,v
 - \b GSMASS \n Gadget binary input particle file stores single precision mass
@@ -329,6 +351,7 @@ MPI factors \ref Options.
 
 \n
 \section secmake6 Things for special behaviour
-- \b OLDCCOMPILER \n code uses some standard c++ libraries but if compiler is too old, these options might not be available.
+- \b OLDCCOMPILER \n code uses some standard c++ libraries but if compiler is too old, these options might not be
+available.
 
 */
