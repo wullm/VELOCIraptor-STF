@@ -314,6 +314,10 @@ void GetProperties(Options &opt, const Int_t nbodies, Particle *Part, Int_t ngro
             pdata[i].AllocateApertures(opt);
         }
     }
+    //calculate properties based on bound particle list only
+    if (opt.iPropertiesBasedOnBound) {
+        
+    }
 
     //for all groups, move particles to their appropriate reference frame
 #ifdef USEOPENMP

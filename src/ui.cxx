@@ -591,6 +591,8 @@ void GetParamFile(Options &opt)
                         opt.iPropertyReferencePosition = atoi(vbuff);
                     else if (strcmp(tbuff, "Particle_type_for_reference_frames")==0)
                         opt.ParticleTypeForRefenceFrame = atoi(vbuff);
+                    else if (strcmp(tbuff, "Properties_based_on_bound_particles_only")==0)
+                        opt.iPropertiesBasedOnBound = atoi(vbuff);
                     else if (strcmp(tbuff, "Iterate_cm_flag")==0)
                         opt.iIterateCM = atoi(vbuff);
                     else if (strcmp(tbuff, "Inclusive_halo_masses")==0)

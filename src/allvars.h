@@ -517,6 +517,10 @@ struct Options
     int iwritefof;
     ///whether mass properties for field objects are inclusive
     int iInclusiveHalo;
+    ///whether properties are calculated based soley on the "bound" particle
+    ///as defined by the unbinding limits Eratio
+    int iPropertiesBasedOnBound;
+
 
     ///if no mass value stored then store global mass value
     Double_t MassValue;
@@ -769,6 +773,7 @@ struct Options
         iSingleHalo=0;
         iBoundHalos=0;
         iInclusiveHalo=0;
+        iPropertiesBasedOnBound = 0;
         iKeepFOF=0;
         iSortByBindingEnergy=1;
         iPropertyReferencePosition=PROPREFCM;
@@ -1221,6 +1226,9 @@ struct ConfigInfo{
         nameinfo.push_back("Reference_frame_for_properties");
         datainfo.push_back(to_string(opt.iPropertyReferencePosition));
         datatype.push_back(python_type_string(opt.iPropertyReferencePosition));
+        nameinfo.push_back("Properties_based_on_bound_particles_only");
+        datainfo.push_back(to_string(opt.iPropertiesBasedOnBound));
+        datatype.push_back(python_type_string(opt.iPropertiesBasedOnBound));
         nameinfo.push_back("Calculate_aperture_quantities");
         datainfo.push_back(to_string(opt.iaperturecalc));
         datatype.push_back(python_type_string(opt.iaperturecalc));
