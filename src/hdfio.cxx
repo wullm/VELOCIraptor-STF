@@ -2052,14 +2052,14 @@ void ReadHDF(Options &opt, vector<Particle> &Part, const Int_t nbodies,Particle 
                             iextraoffset += opt.bh_chemproduction_names.size();
                         }
 #endif
-#ifdef EXTRAON
+#ifdef EXTRADMON
                         if (k==HDFDMTYPE && numextrafieldsvec[HDFDMTYPE]) {
                             if (!Pbuf[ibufindex].HasExtraDMProperties()) Pbuf[ibufindex].InitExtraDMProperties();
                             if (opt.extra_dm_internalprop_names.size()>0)
                             {
                                 for (auto iextra=0;iextra<opt.extra_dm_internalprop_names.size();iextra++)
                                 {
-                                    Pbuf[ibufindex].GetExtraDMProperties().SetExtraProperties(opt.gas_internalprop_names[iextra], extrafieldbuff[iextraoffset*chunksize+nn]);
+                                    Pbuf[ibufindex].GetExtraDMProperties().SetExtraProperties(opt.extra_dm_internalprop_names[iextra], extrafieldbuff[iextraoffset*chunksize+nn]);
                                 }
                             }
                             iextraoffset += opt.extra_dm_internalprop_names.size();
@@ -2314,9 +2314,11 @@ void ReadHDF(Options &opt, vector<Particle> &Part, const Int_t nbodies,Particle 
     }
 #endif
 #ifdef USEMPI
+#ifdef HIGHRES
     if (opt.nsnapread>1) {
-        MPI_Allreduce(&MP_DM,&MP_DM, 1, MPI_DOUBLE, MPI_MIN,mpi_comm_read);
+        MPI_Allreduce(MPI_IN_PLACE,&MP_DM, 1, MPI_DOUBLE, MPI_MIN,mpi_comm_read);
     }
+#endif
     MPI_Barrier(MPI_COMM_WORLD);
     //update cosmological data and boundary in code units
     MPI_Bcast(&(opt.p),sizeof(opt.p),MPI_BYTE,0,MPI_COMM_WORLD);

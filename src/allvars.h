@@ -1278,61 +1278,61 @@ struct ConfigInfo{
             nameinfo.push_back("Gas_internal_property_names");
             datastring=string("");for (auto &x:opt.gas_internalprop_names) {datastring+=x;datastring+=string(",");}
             datainfo.push_back(datastring);
-            datatype.push_back("float32");
+            datatype.push_back("str");
         }
         if (opt.gas_chem_names.size()>0){
             nameinfo.push_back("Gas_chemistry_names");
             datastring=string("");for (auto &x:opt.gas_chem_names) {datastring+=x;datastring+=string(",");}
             datainfo.push_back(datastring);
-            datatype.push_back("float32");
+            datatype.push_back("str");
         }
         if (opt.gas_chemproduction_names.size()>0){
             nameinfo.push_back("Gas_chemistry_production_names");
             datastring=string("");for (auto &x:opt.gas_chemproduction_names) {datastring+=x;datastring+=string(",");}
             datainfo.push_back(datastring);
-            datatype.push_back("float32");
+            datatype.push_back("str");
         }
         if (opt.star_internalprop_names.size()>0){
             nameinfo.push_back("Star_internal_property_names");
             datastring=string("");for (auto &x:opt.star_internalprop_names) {datastring+=x;datastring+=string(",");}
             datainfo.push_back(datastring);
-            datatype.push_back("float32");
+            datatype.push_back("str");
         }
         if (opt.star_chem_names.size()>0){
             nameinfo.push_back("Star_chemistry_names");
             datastring=string("");for (auto &x:opt.star_chem_names) {datastring+=x;datastring+=string(",");}
             datainfo.push_back(datastring);
-            datatype.push_back("float32");
+            datatype.push_back("str");
         }
         if (opt.star_chemproduction_names.size()>0){
             nameinfo.push_back("Star_chemistry_production_names");
             datastring=string("");for (auto &x:opt.star_chemproduction_names) {datastring+=x;datastring+=string(",");}
             datainfo.push_back(datastring);
-            datatype.push_back("float32");
+            datatype.push_back("str");
         }
         if (opt.bh_internalprop_names.size()>0){
             nameinfo.push_back("BH_internal_property_names");
             datastring=string("");for (auto &x:opt.star_internalprop_names) {datastring+=x;datastring+=string(",");}
             datainfo.push_back(datastring);
-            datatype.push_back("float32");
+            datatype.push_back("str");
         }
         if (opt.bh_chem_names.size()>0){
             nameinfo.push_back("BH_chemistry_names");
             datastring=string("");for (auto &x:opt.star_chem_names) {datastring+=x;datastring+=string(",");}
             datainfo.push_back(datastring);
-            datatype.push_back("float32");
+            datatype.push_back("str");
         }
         if (opt.bh_chemproduction_names.size()>0){
             nameinfo.push_back("BH_chemistry_production_names");
             datastring=string("");for (auto &x:opt.bh_chemproduction_names) {datastring+=x;datastring+=string(",");}
             datainfo.push_back(datastring);
-            datatype.push_back("float32");
+            datatype.push_back("str");
         }
         if (opt.extra_dm_internalprop_names.size()>0){
             nameinfo.push_back("Extra_DM_internal_property_names");
             datastring=string("");for (auto &x:opt.extra_dm_internalprop_names) {datastring+=x;datastring+=string(",");}
             datainfo.push_back(datastring);
-            datatype.push_back("float32");
+            datatype.push_back("str");
         }
 
         //other options
@@ -2037,6 +2037,7 @@ struct PropData
         L_200mean_excl_gas[0]=L_200mean_excl_gas[1]=L_200mean_excl_gas[2]=0;
         L_BN98_excl_gas[0]=L_BN98_excl_gas[1]=L_BN98_excl_gas[2]=0;
 #ifdef STARON
+        n_gas_sf = n_gas_nsf = 0;
         M_gas_sf=M_gas_sf_rvmax=M_gas_sf_30kpc=M_gas_sf_50kpc=0;
         L_gas_sf[0]=L_gas_sf[1]=L_gas_sf[2]=0;
         q_gas_sf=s_gas_sf=1.0;
@@ -2101,6 +2102,9 @@ struct PropData
 #endif
 #ifdef HIGHRES
         n_interloper=M_interloper=0;
+#endif
+#ifdef EXTRADMON
+        n_dm = 0;
 #endif
     }
     ///equals operator, useful if want inclusive information before substructure search
@@ -4452,7 +4456,7 @@ struct PropDataHeader{
 #endif
         }
 #endif
-#ifdef EXTRADMN
+#ifdef EXTRADMON
         if (opt.extra_dm_internalprop_names.size() > 0)
         {
             for (auto x:opt.extra_dm_internalprop_names) headerdatainfo.push_back(x+string("_extra_dm"));
