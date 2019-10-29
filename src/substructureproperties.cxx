@@ -314,10 +314,6 @@ void GetProperties(Options &opt, const Int_t nbodies, Particle *Part, Int_t ngro
             pdata[i].AllocateApertures(opt);
         }
     }
-    //calculate properties based on bound particle list only
-    if (opt.iPropertiesBasedOnBound) {
-        
-    }
 
     //for all groups, move particles to their appropriate reference frame
 #ifdef USEOPENMP
@@ -1959,6 +1955,7 @@ private(i, Pval, rcm,rmbp,rminpot)
         pdata[i].gRcm = pdata[i].gRmbp = pdata[i].gRminpot =0;
         for (auto j=0;j<numingroup[i];j++) {
             Pval=&Part[j+noffset[i]];
+            if (opt.iPropertiesBasedOnBound && Pval->GetDensity()>0) continue;
             rcm = rmbp = rminpot = 0;
             for (auto k=0;k<3;k++) {
                 rcm += pow(Pval->GetPosition(k) - pdata[i].gcm[k],2.0);
@@ -4335,6 +4332,7 @@ Int_t **SortAccordingtoBindingEnergy(Options &opt, const Int_t nbodies, Particle
     cout<<ThisTask<<" Sort particles and compute properties of "<<ngroup<<" objects "<<endl;
     Int_t i,j,k;
     Int_t *noffset=new Int_t[ngroup+1];
+    vector<Int_t> oldnumingroup(ngroup+1);
     Int_t *storepid;
     if (opt.iverbose) {
         if (opt.iPropertyReferencePosition == PROPREFCM) cout<<ThisTask<<" Calculate properties using CM as reference "<<endl;
@@ -4363,13 +4361,35 @@ Int_t **SortAccordingtoBindingEnergy(Options &opt, const Int_t nbodies, Particle
 
     GetCM(opt, nbodies, Part, ngroup, pfof, numingroup, pdata, noffset);
     GetFOFMass(opt, ngroup, numingroup, pdata);
-    if (opt.iPropertyReferencePosition == PROPREFCM) {
+    if (opt.iPropertyReferencePosition == PROPREFCM && opt.iPropertiesBasedOnBound == 0) {
         GetProperties(opt, nbodies, Part, ngroup, pfof, numingroup, pdata, noffset);
         GetBindingEnergy(opt, nbodies, Part, ngroup, pfof, numingroup, pdata, noffset);
     }
     else {
         GetBindingEnergy(opt, nbodies, Part, ngroup, pfof, numingroup, pdata, noffset);
+        //adjust to use only bound particles when calculating properties
+        if (opt.iPropertiesBasedOnBound) {
+#ifdef USEOPENMP
+#pragma omp parallel default(shared)  \
+private(i,j)
+{
+    #pragma omp for nowait
+#endif
+                for (i=1;i<=ngroup;i++)
+                {
+                    oldnumingroup[i]=numingroup[i];
+                    qsort(&Part[noffset[i]], numingroup[i], sizeof(Particle), DenCompare);
+                    for (j=0;j<numingroup[i];j++) if(Part[noffset[i]+j].GetDensity()>0) {numingroup[i]=j;break;}
+                }
+#ifdef USEOPENMP
+}
+#endif
+        }
         GetProperties(opt, nbodies, Part, ngroup, pfof, numingroup, pdata, noffset);
+        //if having used only bound particles, then reset numingroup
+        if (opt.iPropertiesBasedOnBound) {
+            for (i=1;i<=ngroup;i++) numingroup[i] = oldnumingroup[i];
+        }
     }
 #ifdef USEOPENMP
 #pragma omp parallel default(shared)  \
@@ -4439,6 +4459,7 @@ void CalculateHaloProperties(Options &opt, const Int_t nbodies, Particle *Part, 
 #endif
     Int_t i,j,k;
     Int_t *noffset=new Int_t[ngroup+1];
+    vector<Int_t> oldnumingroup(ngroup+1);
 
     //sort the particle data according to their group id so that one can then sort particle data
     //of a group however one sees fit.
@@ -4453,13 +4474,35 @@ void CalculateHaloProperties(Options &opt, const Int_t nbodies, Particle *Part, 
     //calculate properties and binding energies
     GetCM(opt, nbodies, Part, ngroup, pfof, numingroup, pdata, noffset);
     GetFOFMass(opt, ngroup, numingroup, pdata);
-    if (opt.iPropertyReferencePosition == PROPREFCM) {
+    if (opt.iPropertyReferencePosition == PROPREFCM && opt.iPropertiesBasedOnBound ==0) {
         GetProperties(opt, nbodies, Part, ngroup, pfof, numingroup, pdata, noffset);
         GetBindingEnergy(opt, nbodies, Part, ngroup, pfof, numingroup, pdata, noffset);
     }
     else {
         GetBindingEnergy(opt, nbodies, Part, ngroup, pfof, numingroup, pdata, noffset);
+        //adjust to use only bound particles when calculating properties
+        if (opt.iPropertiesBasedOnBound) {
+#ifdef USEOPENMP
+#pragma omp parallel default(shared)  \
+private(i,j)
+{
+    #pragma omp for nowait
+#endif
+                for (i=1;i<=ngroup;i++)
+                {
+                    oldnumingroup[i]=numingroup[i];
+                    qsort(&Part[noffset[i]], numingroup[i], sizeof(Particle), DenCompare);
+                    for (j=0;j<numingroup[i];j++) if(Part[noffset[i]+j].GetDensity()>0) {numingroup[i]=j;break;}
+                }
+#ifdef USEOPENMP
+}
+#endif
+        }
         GetProperties(opt, nbodies, Part, ngroup, pfof, numingroup, pdata, noffset);
+        //if having used only bound particles, then reset numingroup
+        if (opt.iPropertiesBasedOnBound) {
+            for (i=1;i<=ngroup;i++) numingroup[i] = oldnumingroup[i];
+        }
     }
     GetMaximumSizes(opt, nbodies, Part, ngroup, numingroup, pdata, noffset);
     //calculate spherical masses after substructures identified if using InclusiveHalo = 3
