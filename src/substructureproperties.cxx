@@ -1886,7 +1886,7 @@ private(i)
                 else if (pdata[i].gcm[k]>opt.p) pdata[i].gcm[k]-=opt.p;
             }
         }
-        if (opt.iPropertyReferencePosition == PROPREFMBP)
+        else if (opt.iPropertyReferencePosition == PROPREFMBP)
         {
             for (auto k=0;k<3;k++) {
                 pdata[i].gcm[k]=pdata[i].gcm[k]-pdata[i].gposmbp[k];
@@ -1897,7 +1897,7 @@ private(i)
                 else if (pdata[i].gposmbp[k]>opt.p) pdata[i].gposmbp[k]-=opt.p;
             }
         }
-        if (opt.iPropertyReferencePosition == PROPREFMINPOT)
+        else if (opt.iPropertyReferencePosition == PROPREFMINPOT)
         {
             for (auto k=0;k<3;k++) {
                 pdata[i].gposmbp[k]=pdata[i].gposmbp[k]-pdata[i].gposminpot[k];
@@ -1942,17 +1942,21 @@ void AdjustHaloPositionForPeriod(Options &opt, Int_t ngroup, Int_t *&numingroup,
 ///calculate max distance from reference positions
 void GetMaximumSizes(Options &opt, Int_t nbodies, Particle *Part, Int_t ngroup, Int_t *&numingroup, PropData *&pdata, Int_t *&noffset) {
     Int_t i;
-    Double_t rcm,rmbp,rminpot;
+    Double_t rcm,rmbp,rminpot, rforso;
     Particle *Pval;
+    Coordinate cmref;
 #ifdef USEOPENMP
 #pragma omp parallel default(shared)  \
-private(i, Pval, rcm,rmbp,rminpot)
+private(i, Pval, rcm, rmbp, rminpot)
 {
     #pragma omp for nowait
 #endif
     for (i=1;i<=ngroup;i++)
     {
-        pdata[i].gRcm = pdata[i].gRmbp = pdata[i].gRminpot =0;
+        pdata[i].gRcm = pdata[i].gRmbp = pdata[i].gRminpot = 0;
+        pdata[i].massforSOsearch = pdata[i].radiusforSOsearch = 0;
+        if (pdata[i].num  < opt.MinSize) continue;
+        pdata[i].massforSOsearch = pdata[i].gmass;
         for (auto j=0;j<numingroup[i];j++) {
             Pval=&Part[j+noffset[i]];
             if (opt.iPropertiesBasedOnBound && Pval->GetDensity()>0) continue;
@@ -1967,11 +1971,48 @@ private(i, Pval, rcm,rmbp,rminpot)
             if (rmbp > pdata[i].gRmbp) pdata[i].gRmbp=rmbp;
             if (rminpot > pdata[i].gRminpot) pdata[i].gRminpot=rminpot;
         }
+        if (opt.iPropertyReferencePosition == PROPREFCM) pdata[i].radiusforSOsearch = pdata[i].gRcm;
+        else if (opt.iPropertyReferencePosition == PROPREFMBP) pdata[i].radiusforSOsearch = pdata[i].gRmbp;
+        else if (opt.iPropertyReferencePosition == PROPREFMINPOT) pdata[i].radiusforSOsearch = pdata[i].gRminpot;
     }
 #ifdef USEOPENMP
 }
 #endif
-
+    if (opt.iPropertiesBasedOnBound) {
+#ifdef USEOPENMP
+#pragma omp parallel default(shared)  \
+private(i, Pval, cmref, rcm)
+{
+    #pragma omp for nowait
+#endif
+        for (i=1;i<=ngroup;i++)
+        {
+            if (pdata[i].massforSOsearch > 0) continue;
+            if (opt.iPropertyReferencePosition == PROPREFCM) cmref = pdata[i].gcm;
+            else if (opt.iPropertyReferencePosition == PROPREFMBP) cmref = pdata[i].gposmbp;
+            else if (opt.iPropertyReferencePosition == PROPREFMINPOT) cmref = pdata[i].gposminpot;
+            for (auto j=0;j<numingroup[i];j++) {
+                Pval = &Part[j+noffset[i]];
+                pdata[i].massforSOsearch += Pval->GetMass();
+                rcm = 0;
+                for (auto k=0;k<3;k++) rcm += pow(Pval->GetPosition(k) - cmref[k],2.0);
+                rcm = sqrt(rcm);
+                if (rcm > pdata[i].radiusforSOsearch) pdata[i].radiusforSOsearch=rcm;
+            }
+        }
+#ifdef NOMASS
+        pdata[i].massforSOsearch *= opt.MassValue;
+#endif
+#ifdef USEOPENMP
+}
+#endif
+    }
+    //
+    // for (i=1;i<=ngroup;i++)
+    // {
+    //     cout<<i<<" "<<pdata[i].num<<" "<<pdata[i].gmass<<" "<<pdata[i].gMFOF<<" "<<pdata[i].massforSOsearch<<" "<<pdata[i].radiusforSOsearch<<endl;
+    // }
+    // exit(9);
 }
 
 ///Calculate concentration parameter based on assuming NFW profile
@@ -2888,8 +2929,8 @@ void GetSOMasses(Options &opt, const Int_t nbodies, Particle *Part, Int_t ngroup
     for (i=1;i<=ngroup;i++) {
         if (pdata[i].hostid != -1) continue;
         nhalos++;
-        radfac=max(1.0,exp(1.0/3.0*(log(pdata[i].gmass)-3.0*log(pdata[i].gsize)+fac)));
-        maxrdist[i]=pdata[i].gsize*opt.SphericalOverdensitySeachFac*radfac;
+        radfac=max(1.0,exp(1.0/3.0*(log(pdata[i].massforSOsearch)-3.0*log(pdata[i].radiusforSOsearch)+fac)));
+        maxrdist[i]=pdata[i].radiusforSOsearch*opt.SphericalOverdensitySeachFac*radfac;
     }
     if (opt.iverbose >= 2) {
         for (i=1;i<=ngroup;i++) if (maxsearchdist < maxrdist[i]) maxsearchdist = maxrdist[i];
