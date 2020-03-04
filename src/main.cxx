@@ -19,6 +19,18 @@ using namespace NBody;
 
 int main(int argc,char **argv)
 {
+
+    cout<<"_---------------------------_"<<endl;
+    cout<<" Beginning nested openmp tree build"<<endl;
+    vector<Particle> Parttest(4096);
+    for (auto &p:Parttest) {
+        for (auto j=0;j<6;j++) p.SetPhase(j,(float)rand()/(float)RAND_MAX);
+    }
+    KDTree *treetest;
+    treetest = new KDTree(Parttest.data(),Parttest.size(),16,treetest->TPHYS,treetest->KEPAN,100);
+    delete treetest;
+    exit(9);
+
 #ifdef SWIFTINTERFACE
   cout<<"Built with SWIFT interface enabled when running standalone VELOCIraptor. Should only be enabled when running VELOCIraptor as a library from SWIFT. Exiting..."<<endl;
   exit(0);
