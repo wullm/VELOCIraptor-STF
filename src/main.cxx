@@ -256,6 +256,15 @@ int main(int argc,char **argv)
     WriteSimulationInfo(opt);
     WriteUnitInfo(opt);
 
+    time1=MyGetTime();
+    tree = new KDTree(Part.data(),nbodies);
+    cout<<" tree build "<<MyGetTime()-time1<<endl;
+    time1=MyGetTime();
+    delete tree;
+    cout<<" tree delete "<<MyGetTime()-time1<<endl;
+
+    exit(9);
+
     //set filenames if they have been passed
 #ifdef USEMPI
     if (opt.smname!=NULL) sprintf(fname4,"%s.%d",opt.smname,ThisTask);
