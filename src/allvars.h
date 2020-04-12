@@ -103,6 +103,7 @@ using namespace NBody;
 #define  PSTGAS 4
 #define  PSTBH 5
 #define  PSTNOBH 6
+#define  PSTNU 7 //neutrino
 //@}
 
 /// \defgroup STRUCTURETYPES Specific structure type, allow for other types beside HALO
@@ -609,6 +610,8 @@ struct Options
     int iusestarparticles;
     /// input contains black hole/sink particles
     int iusesinkparticles;
+    /// input contains neutrino particles
+    int iuseneutrinoparticles;
     /// input contains wind particles
     int iusewindparticles;
     /// input contains tracer particles
@@ -1021,6 +1024,7 @@ struct Options
         iusegasparticles=1;
         iusestarparticles=1;
         iusesinkparticles=1;
+        iuseneutrinoparticles=1;
         iusewindparticles=0;
         iusetracerparticles=0;
 #ifdef HIGHRES

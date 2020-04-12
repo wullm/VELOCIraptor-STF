@@ -309,6 +309,7 @@ void ReadHDF(Options &opt, vector<Particle> &Part, const Int_t nbodies,Particle 
     HDF_Part_Info hdf_tracer_info(HDFTRACERTYPE,opt.ihdfnameconvention);
     HDF_Part_Info hdf_star_info(HDFSTARTYPE,opt.ihdfnameconvention);
     HDF_Part_Info hdf_bh_info(HDFBHTYPE,opt.ihdfnameconvention);
+    HDF_Part_Info hdf_nu_info(HDFNEUTRINOTYPE,opt.ihdfnameconvention);
 
     HDF_Part_Info *hdf_parts[NHDFTYPE];
     hdf_parts[0]=&hdf_gas_info;
@@ -322,6 +323,7 @@ void ReadHDF(Options &opt, vector<Particle> &Part, const Int_t nbodies,Particle 
     #endif
     hdf_parts[4]=&hdf_star_info;
     hdf_parts[5]=&hdf_bh_info;
+    hdf_parts[6]=&hdf_nu_info;
 
     //to store the groups, data sets and their associated data spaces
     vector<hid_t> Fhdf;
