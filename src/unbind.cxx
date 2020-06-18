@@ -806,10 +806,8 @@ private(i,j,k,n,maxE,maxunbindsize,nEplus,nEplusid,Eplusflag,v2,Ti,unbindcheck,E
 #endif
     for (i=1;i<=numgroups;i++) if (numingroup[i]<ompunbindnum && numingroup[i]>0)
     {
-        maxE=-MAXVALUE;
-        nEplus=0;
-        Efrac=0.;
         unbindloops=0;
+        oldnumingroup = numingroup[i];
         GetBoundFractionAndMaxE(opt, numingroup[i], gPart[i], cmvel[i], Efrac, maxE,nunbound);
         if (nunbound>=opt.uinfo.maxunboundfracforiterativeunbind*numingroup[i]) {
             for (j=0;j<numingroup[i];j++) pfof[pglist[i][j]]=0;
@@ -893,7 +891,7 @@ private(i,j,k,n,maxE,maxunbindsize,nEplus,nEplusid,Eplusflag,v2,Ti,unbindcheck,E
                 //if number of particles remove with positive energy is near to the number allowed to be removed
                 //must recalculate kinetic energies and check if maxE>0
                 //otherwise, end unbinding.
-                if (nEplus>opt.uinfo.maxallowedunboundfrac*numingroup[i]) {
+                if (nEplus<opt.uinfo.maxallowedunboundfrac*numingroup[i]) {
                     unbindcheck=false;
                     continue;
                 }

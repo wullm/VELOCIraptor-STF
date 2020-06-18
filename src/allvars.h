@@ -72,6 +72,8 @@
 #include "adios.h"
 #endif
 
+#include "git_revision.h"
+
 //#include "swiftinterface.h"
 //
 //using namespace Swift;
@@ -374,6 +376,11 @@ struct cell_loc {
 /// Options structure stores useful variables that have user determined values which are altered by \ref GetArgs in \ref ui.cxx
 struct Options
 {
+
+    ///\name git related info
+    //@{
+    string git_sha1;
+    //@}
     ///\name filenames
     //@{
     char *fname,*outname,*smname,*pname,*gname;
@@ -623,12 +630,12 @@ struct Options
     /// if want full spherical overdensity, factor by which size is multiplied to get
     ///bucket of particles
     Double_t SphericalOverdensitySeachFac;
-    ///minimum enclosed mass on which to base SO calculations, <1
-    Double_t SphericalOverdensityMinHaloFac;
     ///if want to the particle IDs that are within the SO overdensity of a halo
     int iSphericalOverdensityPartList;
     /// if want to include more than just field objects (halos) in full SO calculations
     int SphericalOverdensitySeachMaxStructLevel;
+    /// flag to store whether SO calculations need extra properties
+    bool iSphericalOverdensityExtraFieldCalculations;
     /// \name Extra variables to store information useful in zoom simluations
     //@{
     /// store the lowest dark matter particle mass
@@ -890,6 +897,9 @@ struct Options
     bool memuse_log;
     //@}
 
+    //silly flag to store whether input has little h's in it.
+    bool inputcontainslittleh;
+
     Options()
     {
         lengthinputconversion = 1.0;
@@ -1061,9 +1071,9 @@ struct Options
         lengthtokpc50pow2=50.0*50.0;
 
         SphericalOverdensitySeachFac=2.5;
-        SphericalOverdensityMinHaloFac=0.05;
         iSphericalOverdensityPartList=0;
         SphericalOverdensitySeachMaxStructLevel = HALOSTYPE;
+        iSphericalOverdensityExtraFieldCalculations = false;
 
         mpipartfac=0.1;
 #if USEHDF
@@ -1091,6 +1101,9 @@ struct Options
         memuse_ave = 0;
         memuse_nsamples = 0;
         memuse_log = false;
+
+        inputcontainslittleh = true;
+
     }
     Options(Options &opt) = default;
     Options& operator=(const Options&) = default;
