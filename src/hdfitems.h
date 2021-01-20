@@ -17,7 +17,7 @@
 //@}
 
 ///number of particle types
-#define NHDFTYPE 7
+#define NHDFTYPE 6
 ///\name define hdf particle types
 //@{
 #define HDFGASTYPE 0
@@ -26,8 +26,7 @@
 #define HDFTRACERTYPE 3
 #define HDFSTARTYPE 4
 #define HDFBHTYPE 5
-#define HDFNEUTRINOTYPE 6
-#define HDFEXTRATYPE 7
+#define HDFEXTRATYPE 6
 
 #define HDFDM1TYPE 2
 #define HDFDM2TYPE 3
@@ -1125,7 +1124,6 @@ struct HDF_Group_Names {
     string TRACERpart_name;
     string STARpart_name;
     string BHpart_name;
-    string NUpart_name;
     string part_names[NHDFTYPE];
     string names[NHDFTYPE+1];
 
@@ -1141,7 +1139,6 @@ struct HDF_Group_Names {
             TRACERpart_name=string("PartType3");
             STARpart_name=string("PartType4");
             BHpart_name=string("PartType5");
-            NUpart_name=string("PartType6");
           break;
 
           default:
@@ -1153,7 +1150,6 @@ struct HDF_Group_Names {
             TRACERpart_name=string("PartType3");
             STARpart_name=string("PartType4");
             BHpart_name=string("PartType5");
-            NUpart_name=string("PartType6");
           break;
         }
 
@@ -1167,7 +1163,6 @@ struct HDF_Group_Names {
         part_names[3]=TRACERpart_name;
         part_names[4]=STARpart_name;
         part_names[5]=BHpart_name;
-        part_names[6]=NUpart_name;
 
         names[0]=Header_name;
         names[1]=GASpart_name;
@@ -1180,7 +1175,6 @@ struct HDF_Group_Names {
         names[4]=TRACERpart_name;
         names[5]=STARpart_name;
         names[6]=BHpart_name;
-        names[7]=NUpart_name;
     }
 };
 
@@ -1588,40 +1582,6 @@ struct HDF_Part_Info {
                 names[itemp++]=string("TotalAccretedMasses");
             }
         }
-        //neutrino dark matter
-        if (ptype==HDFNEUTRINOTYPE) {
-
-            // Positions
-            names[itemp++]=string("Coordinates");
-
-            // Velocities
-            if(hdfnametype==HDFEAGLENAMES) names[itemp++]=string("Velocity");
-            else names[itemp++]=string("Velocities");
-
-            // IDs
-            names[itemp++]=string("ParticleIDs");
-
-            // Masses
-            if (hdfnametype==HDFSWIFTEAGLENAMES || hdfnametype==HDFSIMBANAMES ||
-                hdfnametype==HDFMUFASANAMES || hdfnametype==HDFOLDSWIFTEAGLENAMES) {
-                names[itemp++]=string("Masses");
-            }
-
-            // Potential
-            if (hdfnametype==HDFSIMBANAMES||hdfnametype==HDFMUFASANAMES) {
-                names[itemp++]=string("Potential");
-            }
-            else if (hdfnametype==HDFILLUSTISNAMES) {
-                names[itemp++]=string("Potential");
-            }
-
-            // Subfind properties
-            if (hdfnametype==HDFILLUSTISNAMES) {
-                names[itemp++]=string("SubfindDensity");
-                names[itemp++]=string("SubfindHsml");
-                names[itemp++]=string("SubfindVelDisp");
-            }
-        }
         nentries=itemp;
     }
 };
@@ -1645,7 +1605,6 @@ inline void HDFSetUsedParticleTypes(Options &opt, int &nusetypes, int &nbusetype
         }
         if (opt.iusestarparticles) usetypes[nusetypes++]=HDFSTARTYPE;
         if (opt.iusesinkparticles) usetypes[nusetypes++]=HDFBHTYPE;
-        if (opt.iuseneutrinoparticles) usetypes[nusetypes++]=HDFNEUTRINOTYPE;
         if (opt.iusewindparticles) usetypes[nusetypes++]=HDFWINDTYPE;
         if (opt.iusetracerparticles) usetypes[nusetypes++]=HDFTRACERTYPE;
     }
@@ -1658,7 +1617,6 @@ inline void HDFSetUsedParticleTypes(Options &opt, int &nusetypes, int &nbusetype
                 usetypes[nusetypes++]=HDFDM2TYPE;
             }
         }
-        if (opt.iuseneutrinoparticles) usetypes[nusetypes++]=HDFNEUTRINOTYPE;
         if (opt.iBaryonSearch) {
             nbusetypes=1;usetypes[nusetypes+nbusetypes++]=HDFGASTYPE;
             if (opt.iusestarparticles) usetypes[nusetypes+nbusetypes++]=HDFSTARTYPE;
@@ -1668,7 +1626,6 @@ inline void HDFSetUsedParticleTypes(Options &opt, int &nusetypes, int &nbusetype
     else if (opt.partsearchtype==PSTGAS) {nusetypes=1;usetypes[0]=HDFGASTYPE;}
     else if (opt.partsearchtype==PSTSTAR) {nusetypes=1;usetypes[0]=HDFSTARTYPE;}
     else if (opt.partsearchtype==PSTBH) {nusetypes=1;usetypes[0]=HDFBHTYPE;}
-    else if (opt.partsearchtype==PSTNU) {nusetypes=1;usetypes[0]=HDFNEUTRINOTYPE;}
 }
 //@}
 
@@ -1781,11 +1738,6 @@ inline Int_t HDF_get_nbodies(char *fname, int ptype, Options &opt)
             {
                 cerr<<"Warning: Configured to load black hole particles but none present"<<endl;
                 opt.iusesinkparticles=0;
-            }
-            if (opt.iuseneutrinoparticles && hdf_header_info.npartTotalHW[HDFNEUTRINOTYPE] == 0 && hdf_header_info.npartTotal[HDFNEUTRINOTYPE] == 0)
-            {
-                cerr<<"Warning: Configured to load neutrino particles but none present"<<endl;
-                opt.iuseneutrinoparticles=0;
             }
             if (opt.iusewindparticles && hdf_header_info.npartTotalHW[HDFWINDTYPE] == 0 && hdf_header_info.npartTotal[HDFWINDTYPE] == 0)
             {

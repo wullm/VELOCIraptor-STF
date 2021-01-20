@@ -89,9 +89,6 @@ inline int ConfigCheckSwift(Options &opt, Swift::siminfo &s)
             case PSTBH:
                 cout<<"Searching BH particles?! Really? Are there enough?"<<endl;
                 break;
-            case PSTNU:
-                cout<<"Searching neutrino particles?! Really? Are there enough?"<<endl;
-                break;
     }
     if (opt.fofbgtype==FOF6D) cout<<"Field objects found with 3d FOF"<<endl;
     else if (opt.fofbgtype==FOF6D) cout<<"Field objects found with initial 3d FOF then use single dispersion to find 6d FOFs"<<endl;
