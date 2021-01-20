@@ -530,9 +530,6 @@ groupinfo *InvokeVelociraptorHydro(const int snapnum, char* outputname,
                     baryonOffset++;
                     bhOffset++;
                 }
-                else if(swift_parts[i].type == 6) {
-                    //do nothing, ignore neutrino particles
-                }
                 else {
                     cout<<"Unknown particle type found: index="<<i<<" type="<<swift_parts[i].type<<" while treating baryons differently. Exiting..."<<endl;
                     return NULL;
