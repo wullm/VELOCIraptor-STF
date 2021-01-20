@@ -280,6 +280,7 @@ void usage(void)
     \arg <b> \e Input_includes_gas_particle </b> If gas particle specific information is in the input file. \ref Options.iusegasparticles \n
     \arg <b> \e Input_includes_star_particle </b> If star particle specific information is in the input file. \ref Options.iusestarparticles \n
     \arg <b> \e Input_includes_bh_particle </b> If bh/sink particle specific information is in the input file. \ref Options.iusesinkparticles \n
+    \arg <b> \e Input_includes_neutrino_particle </b> If neutrino particle specific information is in the input file. \ref Options.iuseneutrinoparticles \n
     \arg <b> \e Input_includes_wind_particle </b> If wind particle specific information is in the input file. \ref Options.iusewindparticles \n
     \arg <b> \e Input_includes_tracer_particle </b> If tracer particle specific information is in the input file. \ref Options.iusetracerparticles \n
     \arg <b> \e Input_includes_star_particle </b> If star particle specific information is in the input file. \ref Options.iusestarparticles \n
@@ -1698,6 +1699,8 @@ void GetParamFile(Options &opt)
                         opt.iusestarparticles = atoi(vbuff);
                     else if (strcmp(tbuff, "Input_includes_bh_particle")==0)
                         opt.iusesinkparticles = atoi(vbuff);
+                    else if (strcmp(tbuff, "Input_includes_neutrino_particle")==0)
+                        opt.iuseneutrinoparticles = atoi(vbuff);
                     else if (strcmp(tbuff, "Input_includes_wind_particle")==0)
                         opt.iusewindparticles = atoi(vbuff);
                     else if (strcmp(tbuff, "Input_includes_tracer_particle")==0)
@@ -2203,6 +2206,9 @@ void ConfigCheck(Options &opt)
             case PSTBH:
                 cout<<"Searching BH particles?! Really? Are there enough?"<<endl;
                 break;
+            case PSTNU:
+                cout<<"Searching neutrino particles?! Really? Are there enough?"<<endl;
+                break;
     }
     if (opt.fofbgtype==FOF6D) cout<<"Field objects found with 3d FOF"<<endl;
     else if (opt.fofbgtype==FOF6D) cout<<"Field objects found with initial 3d FOF then use single dispersion to find 6d FOFs"<<endl;
@@ -2555,6 +2561,7 @@ ConfigInfo::ConfigInfo(Options &opt){
     AddEntry("Input_includes_gas_particle",opt.iusegasparticles);
     AddEntry("Input_includes_star_particle", opt.iusestarparticles);
     AddEntry("Input_includes_bh_particle", opt.iusesinkparticles);
+    AddEntry("Input_includes_neutrino_particle", opt.iuseneutrinoparticles);
     AddEntry("Input_includes_extradm_particle", opt.iuseextradarkparticles);
     AddEntry("Input_includes_wind_particle", opt.iusewindparticles);
     AddEntry("Input_includes_tracer_particle", opt.iusetracerparticles);

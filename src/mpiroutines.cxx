@@ -5542,6 +5542,7 @@ void MPIUpdateUseParticleTypes(Options &opt)
 {
     MPI_Bcast(&(opt.iusestarparticles),sizeof(opt.iusestarparticles),MPI_BYTE,0,MPI_COMM_WORLD);
     MPI_Bcast(&(opt.iusesinkparticles),sizeof(opt.iusesinkparticles),MPI_BYTE,0,MPI_COMM_WORLD);
+    MPI_Bcast(&(opt.iuseneutrinoparticles),sizeof(opt.iuseneutrinoparticles),MPI_BYTE,0,MPI_COMM_WORLD);
     MPI_Bcast(&(opt.iusewindparticles),sizeof(opt.iusewindparticles),MPI_BYTE,0,MPI_COMM_WORLD);
     MPI_Bcast(&(opt.iusetracerparticles),sizeof(opt.iusetracerparticles),MPI_BYTE,0,MPI_COMM_WORLD);
     MPI_Bcast(&(opt.iuseextradarkparticles),sizeof(opt.iuseextradarkparticles),MPI_BYTE,0,MPI_COMM_WORLD);
