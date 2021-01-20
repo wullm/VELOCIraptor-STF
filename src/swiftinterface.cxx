@@ -127,9 +127,9 @@ inline int ConfigCheckSwift(Options &opt, Swift::siminfo &s)
 inline bool CheckSwiftPartType(int type)
 {
 #ifdef HIGHRES
-    return (type != DARKTYPE && type != DARK2TYPE && type != GASTYPE && type != STARTYPE && type != BHTYPE);
+    return (type != DARKTYPE && type != DARK2TYPE && type != GASTYPE && type != STARTYPE && type != BHTYPE && type != NPARTTYPES);
 #else
-    return (type != DARKTYPE && type != GASTYPE && type != STARTYPE && type != BHTYPE);
+    return (type != DARKTYPE && type != GASTYPE && type != STARTYPE && type != BHTYPE && type != NPARTTYPES);
 #endif
 }
 
@@ -517,6 +517,12 @@ groupinfo *InvokeVelociraptorHydro(const int snapnum, char* outputname,
                 dmOffset++;
             }
 #endif
+            else if(swift_parts[i].type == NPARTTYPES) {
+                parts[dmOffset] = Particle(swift_parts[i]);
+                parts[dmOffset].SetType(NPARTTYPES);
+                ninterloper++;
+                dmOffset++;
+            }
             else {
                 if(swift_parts[i].type == GASTYPE) {
                     pbaryons[baryonOffset] = Particle(swift_parts[i]);
